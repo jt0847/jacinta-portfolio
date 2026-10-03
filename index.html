@@ -3,592 +3,1248 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Jacinta Thomas</title>
+<title>Jacinta T. — Portfolio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet"/>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --ink:      #07080F;
-  --ink2:     #0D0F1C;
-  --ink3:     #131627;
-  --orange:   #F97316;
-  --orange2:  #FB923C;
-  --orange3:  #FED7AA;
-  --blue:     #3B82F6;
-  --blue2:    #60A5FA;
-  --blue3:    #BFDBFE;
-  --purple:   #A855F7;
-  --purple2:  #C084FC;
-  --purple3:  #E9D5FF;
-  --white:    #F5F3FF;
-  --muted:    #6E7A99;
-  --border:   rgba(168,85,247,0.11);
-  --border2:  rgba(249,115,22,0.15);
+  --cream:   #f2eef4;           /* light lilac-tinted off-white background */
+  --ink:     #1A1423;           /* Shadow Gray — text, dark surfaces        */
+  --rust:    #F08700;           /* Tiger Orange — primary accent             */
+  --rust2:   #f9a030;           /* Tiger Orange light — hover states         */
+  --slate:   #AD91A3;           /* Lilac Ash — secondary accent              */
+  --sage:    #8a6e82;           /* Lilac Ash dark — tertiary / UNT label     */
+  --muted:   #6b566a;           /* Muted lilac-gray for body text            */
+  --light:   rgba(255,255,255,0.72);
+  --tape-h:  14px;
 }
 
 html { scroll-behavior: smooth; }
+
 body {
-  background: var(--ink);
-  color: var(--white);
-  font-family: 'Inter', sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
   overflow-x: hidden;
   cursor: none;
 }
+/* hide native cursor sitewide */
+*, *::before, *::after { cursor: none !important; }
 
-/* custom cursor */
-#cur { position:fixed; width:8px; height:8px; background:var(--orange); border-radius:50%; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); mix-blend-mode:difference; transition:width .18s,height .18s; }
-#cur-ring { position:fixed; width:34px; height:34px; border:1px solid rgba(192,132,252,0.45); border-radius:50%; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:width .28s,height .28s,opacity .28s; }
+/* ─── CAMERA CURSOR ─── */
+#cam-cursor {
+  position: fixed;
+  top: 0; left: 0;
+  width: 28px; height: 24px;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.06s linear;
+  will-change: transform;
+}
+#cam-cursor svg {
+  width: 100%; height: 100%;
+  display: block;
+  filter: drop-shadow(0px 1px 3px rgba(0,0,0,0.35));
+}
+/* Slightly bigger + shutter blink on click */
+body.cam-click #cam-cursor { transform: translate(-50%,-50%) scale(1.25); }
+body.cam-click #cam-shutter { opacity: 1; }
 
-/* animated bg canvas */
-#bg-canvas { position:fixed; inset:0; z-index:0; pointer-events:none; }
+/* ─── LAYOUT SHELL ─── */
+/* Side gutters hold the tiny polaroids */
+.page-shell {
+  display: grid;
+  grid-template-columns: 88px 1fr 88px;
+  min-height: 100vh;
+}
 
-/* ── NAV ── */
+.gutter {
+  position: relative;
+  padding-top: 80px;
+}
+
+.main-col {
+  min-width: 0;
+}
+
+/* ─── TINY GUTTER POLAROIDS ─── */
+.gpol {
+  position: absolute;
+  width: 64px;
+  background: #fff;
+  padding: 5px 5px 18px;
+  box-shadow: 2px 3px 10px rgba(0,0,0,0.18), 0 1px 3px rgba(0,0,0,0.09);
+  transform-origin: center center;
+  transition: transform 0.28s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.28s ease, z-index 0s;
+  cursor: pointer;
+  z-index: 2;
+}
+.gpol:hover {
+  transform: translateY(-10px) scale(1.55) !important;
+  box-shadow: 4px 8px 24px rgba(0,0,0,0.26);
+  z-index: 50;
+}
+.gpol-img {
+  display: block;
+  width: 100%;
+  height: 52px;
+  overflow: hidden;
+}
+.gpol-label {
+  font-family: 'Caveat', cursive;
+  font-size: 8.5px;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 3px;
+  display: block;
+  line-height: 1.3;
+}
+.gtape {
+  position: absolute;
+  height: 10px;
+  border-radius: 1px;
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* ─── NAV ─── */
 nav {
-  position:fixed; top:0; left:0; right:0; z-index:100;
-  display:flex; align-items:center; justify-content:space-between;
-  padding:1.1rem 3rem;
-  backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px);
-  background:rgba(7,8,15,0.72);
-  border-bottom:1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 32px;
+  background: rgba(242,238,244,0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(173,145,163,0.2);
 }
-.nav-logo { font-family:'Space Mono',monospace; font-size:.88rem; color:var(--orange); text-decoration:none; letter-spacing:.03em; }
-.nav-logo span { opacity:.45; }
-.nav-links { display:flex; gap:2.2rem; list-style:none; }
-.nav-links a { color:var(--muted); text-decoration:none; font-size:.78rem; font-weight:500; letter-spacing:.1em; text-transform:uppercase; transition:color .2s; position:relative; }
-.nav-links a::after { content:''; position:absolute; bottom:-4px; left:0; right:0; height:1px; background:var(--orange); transform:scaleX(0); transition:transform .3s; transform-origin:left; }
-.nav-links a:hover { color:var(--white); }
-.nav-links a:hover::after { transform:scaleX(1); }
-.nav-cta { font-family:'Space Mono',monospace; font-size:.72rem; padding:.48rem 1.1rem; border:1px solid rgba(249,115,22,0.4); color:var(--orange); border-radius:5px; text-decoration:none; transition:background .22s,color .22s; letter-spacing:.04em; }
-.nav-cta:hover { background:var(--orange); color:var(--ink); }
-
-/* ── HERO ── */
-#hero { min-height:100vh; display:flex; flex-direction:column; justify-content:center; padding:0 3rem; position:relative; z-index:1; }
-.hero-eyebrow { font-family:'Space Mono',monospace; font-size:.68rem; color:var(--blue2); letter-spacing:.22em; text-transform:uppercase; margin-bottom:1.8rem; display:flex; align-items:center; gap:.8rem; opacity:0; animation:fadeUp .7s .2s forwards; }
-.hero-eyebrow::before { content:''; display:inline-block; width:24px; height:1px; background:var(--blue2); }
-
-.hero-name { font-family:'Space Grotesk',sans-serif; font-size:clamp(3rem,9vw,7.5rem); font-weight:700; line-height:.95; letter-spacing:-.03em; margin-bottom:.75rem; opacity:0; animation:fadeUp .7s .35s forwards; }
-.hero-name .o { color:var(--orange); }
-.hero-name .b { color:var(--blue2); }
-.hero-name .p { color:var(--purple2); }
-
-.hero-role-line { font-family:'Space Grotesk',sans-serif; font-size:clamp(1.1rem,2.5vw,2rem); font-weight:300; color:var(--muted); margin-bottom:2rem; min-height:2.8rem; display:flex; align-items:center; gap:.45rem; opacity:0; animation:fadeUp .7s .5s forwards; }
-.role-spin { color:var(--orange2); font-weight:500; border-right:2px solid var(--orange2); padding-right:4px; white-space:nowrap; overflow:hidden; }
-
-.hero-desc { max-width:460px; color:var(--muted); line-height:1.9; font-size:.95rem; margin-bottom:2.8rem; opacity:0; animation:fadeUp .7s .65s forwards; }
-.hero-desc em { color:var(--white); font-style:normal; font-weight:500; }
-
-.hero-actions { display:flex; gap:1rem; flex-wrap:wrap; opacity:0; animation:fadeUp .7s .8s forwards; }
-.btn-primary { font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:.85rem; padding:.8rem 1.9rem; background:linear-gradient(135deg,var(--orange),var(--orange2)); color:var(--ink); border:none; border-radius:7px; text-decoration:none; transition:transform .2s,box-shadow .2s; display:inline-flex; align-items:center; gap:.5rem; letter-spacing:.01em; }
-.btn-primary:hover { transform:translateY(-2px); box-shadow:0 12px 38px rgba(249,115,22,.32); }
-.btn-ghost { font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:.85rem; padding:.8rem 1.9rem; border:1px solid var(--border); color:var(--white); border-radius:7px; text-decoration:none; transition:border-color .2s,background .2s; display:inline-flex; align-items:center; gap:.5rem; }
-.btn-ghost:hover { border-color:var(--purple2); background:rgba(168,85,247,.07); }
-
-.hero-scroll { position:absolute; bottom:2.5rem; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:.5rem; color:var(--muted); font-family:'Space Mono',monospace; font-size:.6rem; letter-spacing:.18em; text-transform:uppercase; opacity:0; animation:fadeUp .6s 1.1s forwards; }
-.scroll-line { width:1px; height:40px; background:linear-gradient(to bottom,var(--orange),transparent); animation:sb 2s ease-in-out infinite; }
-@keyframes sb { 0%,100%{opacity:.25} 50%{opacity:.9} }
-@keyframes fadeUp { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:none} }
-
-/* ── SECTIONS ── */
-section { position:relative; z-index:1; }
-.section-inner { max-width:1100px; margin:0 auto; padding:6rem 3rem; }
-.section-label { font-family:'Space Mono',monospace; font-size:.67rem; color:var(--purple2); letter-spacing:.22em; text-transform:uppercase; margin-bottom:1rem; display:flex; align-items:center; gap:.75rem; }
-.section-label::before { content:''; width:20px; height:1px; background:var(--purple2); }
-.section-title { font-family:'Space Grotesk',sans-serif; font-size:clamp(1.8rem,4vw,2.7rem); font-weight:700; letter-spacing:-.025em; margin-bottom:1rem; line-height:1.1; }
-.section-title .acc { color:var(--orange); }
-
-/* ── ABOUT ── */
-#about { background:var(--ink2); }
-.about-grid { display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:center; margin-top:3rem; }
-.about-text p { color:var(--muted); line-height:1.9; margin-bottom:1.3rem; font-size:.95rem; }
-.about-text p em { color:var(--white); font-style:normal; font-weight:500; }
-.about-stats { display:grid; grid-template-columns:1fr 1fr; gap:1.1rem; }
-.stat-card { background:var(--ink3); border:1px solid var(--border); border-radius:13px; padding:1.4rem; transition:border-color .3s,transform .3s; }
-.stat-card:hover { border-color:var(--orange); transform:translateY(-3px); }
-.stat-num { font-family:'Space Grotesk',sans-serif; font-size:2rem; font-weight:700; line-height:1; margin-bottom:.35rem; }
-.stat-num.o { color:var(--orange); }
-.stat-num.b { color:var(--blue2); }
-.stat-num.p { color:var(--purple2); }
-.stat-label { font-size:.76rem; color:var(--muted); line-height:1.4; }
-
-/* ── SKILLS ── */
-.skills-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.2rem; margin-top:3rem; }
-.skill-group { background:var(--ink2); border:1px solid var(--border); border-radius:14px; padding:1.6rem; transition:border-color .3s,transform .3s; }
-.skill-group:hover { transform:translateY(-4px); }
-.skill-group.sk-o:hover { border-color:var(--orange); }
-.skill-group.sk-b:hover { border-color:var(--blue2); }
-.skill-group.sk-p:hover { border-color:var(--purple2); }
-.skill-icon { width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.2rem; margin-bottom:.9rem; }
-.skill-icon.o { background:rgba(249,115,22,.12); }
-.skill-icon.b { background:rgba(59,130,246,.12); }
-.skill-icon.p { background:rgba(168,85,247,.12); }
-.skill-group-title { font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:.9rem; margin-bottom:.9rem; letter-spacing:.01em; }
-.skill-tags { display:flex; flex-wrap:wrap; gap:.4rem; }
-.skill-tag { font-family:'Space Mono',monospace; font-size:.65rem; padding:.26rem .6rem; border-radius:4px; border:1px solid var(--border); color:var(--muted); background:rgba(255,255,255,.025); letter-spacing:.02em; }
-
-/* ── PROJECTS ── */
-#projects { background:var(--ink2); }
-.projects-bento { display:grid; grid-template-columns:1fr 1fr; gap:1.4rem; margin-top:3rem; }
-.project-card { border-radius:18px; border:1px solid var(--border); overflow:hidden; position:relative; background:var(--ink3); transition:border-color .3s,transform .3s,box-shadow .3s; display:flex; flex-direction:column; }
-.project-card:hover { transform:translateY(-5px); box-shadow:0 22px 60px rgba(0,0,0,.5); }
-.project-card.pc-ms:hover { border-color:var(--orange2); }
-.project-card.pc-kd:hover { border-color:var(--purple2); }
-.project-card.pc-ms { grid-row:1/3; }
-
-/* ── PROJECT VISUAL AREAS (CSS animations, no canvas) ── */
-.card-visual { position:relative; overflow:hidden; flex-shrink:0; display:flex; align-items:center; justify-content:center; }
-.card-visual.tall { height:290px; }
-.card-visual.short { height:190px; }
-
-/* MoodSync visual — audio bars + orbiting dots */
-.ms-visual { width:100%; height:100%; background:linear-gradient(145deg,#0d0518,#0a0e1f,#0f0a1a); position:relative; overflow:hidden; }
-.ms-bars { position:absolute; bottom:0; left:0; right:0; height:55%; display:flex; align-items:flex-end; justify-content:center; gap:3px; padding:0 18px; }
-.ms-bar { flex:1; border-radius:3px 3px 0 0; max-width:14px; animation:barDance var(--d,1.2s) ease-in-out infinite alternate; transform-origin:bottom; }
-@keyframes barDance { from{transform:scaleY(.18)} to{transform:scaleY(1)} }
-.ms-orbit { position:absolute; top:38%; left:50%; transform:translate(-50%,-50%); width:120px; height:120px; }
-.ms-orbit-ring { width:100%; height:100%; border-radius:50%; border:1px solid rgba(168,85,247,.18); position:absolute; inset:0; }
-.ms-center { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:28px; height:28px; border-radius:50%; background:radial-gradient(circle,rgba(249,115,22,.7),rgba(168,85,247,.15)); animation:centerPulse 2.4s ease-in-out infinite; }
-@keyframes centerPulse { 0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.8} 50%{transform:translate(-50%,-50%) scale(1.22);opacity:1} }
-.ms-dot { position:absolute; width:8px; height:8px; border-radius:50%; top:50%; left:50%; animation:orbitSpin var(--od,5s) linear infinite; }
-@keyframes orbitSpin { from{transform:rotate(var(--os,0deg)) translateX(52px) rotate(calc(-1 * var(--os,0deg)))} to{transform:rotate(calc(var(--os,0deg) + 360deg)) translateX(52px) rotate(calc(-1 * var(--os,0deg) - 360deg))} }
-.ms-label { position:absolute; top:12%; left:50%; transform:translateX(-50%); font-family:'Space Mono',monospace; font-size:.6rem; color:rgba(251,146,60,.65); letter-spacing:.14em; text-transform:uppercase; white-space:nowrap; }
-.ms-wave { position:absolute; top:22%; left:0; right:0; height:22px; }
-.ms-wave svg { width:100%; height:100%; }
-.ms-wave path { fill:none; stroke:rgba(251,146,60,.4); stroke-width:1.4; stroke-dasharray:400; stroke-dashoffset:400; animation:drawWave 3s ease-in-out infinite; }
-@keyframes drawWave { 0%{stroke-dashoffset:400} 60%{stroke-dashoffset:0} 100%{stroke-dashoffset:-400} }
-
-/* KODA visual — forest scene via CSS */
-.kd-visual { width:100%; height:100%; background:linear-gradient(180deg,#060b1a 0%,#0b1529 55%,#0d1f15 100%); position:relative; overflow:hidden; }
-.kd-stars { position:absolute; inset:0; }
-.kd-star { position:absolute; width:2px; height:2px; border-radius:50%; background:#fff; animation:twinkle var(--tw,3s) ease-in-out infinite; }
-@keyframes twinkle { 0%,100%{opacity:.1} 50%{opacity:.8} }
-.kd-ground { position:absolute; bottom:0; left:0; right:0; height:28%; background:linear-gradient(to top,#071508,#0d2310); }
-.kd-tree { position:absolute; bottom:28%; animation:sway 4s ease-in-out infinite alternate; transform-origin:bottom center; }
-@keyframes sway { from{transform:rotate(-1.5deg)} to{transform:rotate(1.5deg)} }
-.kd-bear { position:absolute; bottom:30%; left:38%; animation:breathe 3s ease-in-out infinite; }
-@keyframes breathe { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
-.kd-bear svg { width:54px; height:66px; }
-.kd-firefly { position:absolute; width:5px; height:5px; border-radius:50%; animation:fly var(--fs,4s) ease-in-out infinite alternate, glow var(--fg,2s) ease-in-out infinite; }
-@keyframes fly { 0%{transform:translate(0,0)} 100%{transform:translate(var(--fx,20px),var(--fy,-15px))} }
-@keyframes glow { 0%,100%{opacity:.15;box-shadow:none} 50%{opacity:.9;box-shadow:0 0 7px 2px currentColor} }
-.kd-moon { position:absolute; top:9%; right:22%; width:38px; height:38px; border-radius:50%; background:rgba(255,250,210,.14); animation:moonGlow 5s ease-in-out infinite; }
-@keyframes moonGlow { 0%,100%{box-shadow:0 0 16px 4px rgba(255,248,190,.07)} 50%{box-shadow:0 0 26px 8px rgba(255,248,190,.14)} }
-
-/* floating badge */
-.canvas-badge { position:absolute; bottom:1rem; left:1.25rem; font-family:'Space Mono',monospace; font-size:.62rem; padding:.24rem .62rem; border-radius:4px; letter-spacing:.06em; text-transform:uppercase; border:1px solid; }
-.cb-orange { background:rgba(249,115,22,.16); color:var(--orange2); border-color:rgba(249,115,22,.32); }
-.cb-purple { background:rgba(168,85,247,.16); color:var(--purple2); border-color:rgba(168,85,247,.32); }
-
-/* card body */
-.card-body { padding:1.6rem; flex:1; }
-.card-tags { display:flex; gap:.42rem; flex-wrap:wrap; margin-bottom:.85rem; }
-.card-tag { font-family:'Space Mono',monospace; font-size:.61rem; padding:.2rem .55rem; border-radius:4px; letter-spacing:.04em; text-transform:uppercase; border:1px solid; }
-.ct-o { background:rgba(249,115,22,.09); color:var(--orange2); border-color:rgba(249,115,22,.23); }
-.ct-b { background:rgba(59,130,246,.09); color:var(--blue2); border-color:rgba(59,130,246,.23); }
-.ct-p { background:rgba(168,85,247,.09); color:var(--purple2); border-color:rgba(168,85,247,.23); }
-.card-title { font-family:'Space Grotesk',sans-serif; font-size:1.28rem; font-weight:700; margin-bottom:.52rem; letter-spacing:-.015em; }
-.card-desc { color:var(--muted); font-size:.86rem; line-height:1.82; margin-bottom:1.4rem; }
-.card-links { display:flex; gap:.6rem; flex-wrap:wrap; }
-.card-link { font-family:'Space Mono',monospace; font-size:.68rem; padding:.4rem .92rem; border-radius:6px; text-decoration:none; letter-spacing:.04em; transition:all .2s; display:inline-flex; align-items:center; gap:.38rem; }
-.cl-primary { background:rgba(249,115,22,.13); color:var(--orange2); border:1px solid rgba(249,115,22,.28); }
-.cl-primary:hover { background:var(--orange); color:var(--ink); }
-.cl-ghost { background:transparent; color:var(--muted); border:1px solid var(--border); }
-.cl-ghost:hover { color:var(--white); border-color:var(--muted); }
-.cl-p { background:rgba(168,85,247,.12); color:var(--purple2); border:1px solid rgba(168,85,247,.28); }
-.cl-p:hover { background:var(--purple); color:var(--white); }
-
-/* coming soon */
-.card-soon { min-height:110px; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:.65rem; padding:1.75rem; border:1px dashed rgba(59,130,246,.18); background:transparent; border-radius:18px; }
-.soon-label { font-family:'Space Mono',monospace; font-size:.68rem; color:rgba(96,165,250,.32); letter-spacing:.18em; text-transform:uppercase; }
-.soon-dot { width:6px; height:6px; border-radius:50%; background:var(--blue2); animation:blink 1.8s ease-in-out infinite; opacity:.4; }
-@keyframes blink { 0%,100%{opacity:.12} 50%{opacity:.65} }
-
-/* ── CONTACT ── */
-.contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:center; margin-top:3rem; }
-.contact-lead { font-family:'Space Grotesk',sans-serif; font-size:clamp(1.45rem,3vw,2rem); font-weight:700; line-height:1.2; letter-spacing:-.022em; margin-bottom:1.4rem; }
-.contact-lead span { color:var(--orange); }
-.contact-sub { color:var(--muted); line-height:1.85; margin-bottom:2rem; font-size:.92rem; }
-.contact-links { display:flex; flex-direction:column; gap:.85rem; }
-.contact-link { display:flex; align-items:center; gap:1rem; text-decoration:none; color:var(--muted); transition:color .2s; font-size:.86rem; }
-.contact-link:hover { color:var(--white); }
-.contact-icon { width:38px; height:38px; border:1px solid var(--border); border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:.9rem; transition:border-color .2s,background .2s; flex-shrink:0; font-family:'Space Mono',monospace; }
-.contact-link:hover .contact-icon { border-color:var(--orange); background:rgba(249,115,22,.1); }
-.contact-card { background:var(--ink2); border:1px solid var(--border); border-radius:18px; padding:2.4rem; position:relative; overflow:hidden; }
-.contact-card::before { content:''; position:absolute; top:-40%; right:-30%; width:280px; height:280px; background:radial-gradient(circle,rgba(249,115,22,.065) 0%,transparent 70%); pointer-events:none; }
-.available-row { display:flex; align-items:center; gap:.6rem; font-family:'Space Mono',monospace; font-size:.68rem; color:#4ade80; letter-spacing:.1em; margin-bottom:1.8rem; }
-.av-dot { width:7px; height:7px; border-radius:50%; background:#4ade80; animation:pulse 2.2s ease-in-out infinite; }
-@keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(74,222,128,.4)} 70%{box-shadow:0 0 0 8px rgba(74,222,128,0)} 100%{box-shadow:0 0 0 0 rgba(74,222,128,0)} }
-.contact-card-title { font-family:'Space Grotesk',sans-serif; font-size:1.4rem; font-weight:700; margin-bottom:.6rem; }
-.contact-card-sub { color:var(--muted); font-size:.85rem; line-height:1.78; margin-bottom:1.8rem; }
-.email-btn { display:inline-flex; align-items:center; gap:.5rem; font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:.84rem; padding:.78rem 1.65rem; background:linear-gradient(135deg,var(--orange),var(--orange2)); color:var(--ink); border-radius:7px; text-decoration:none; transition:transform .2s,box-shadow .2s; }
-.email-btn:hover { transform:translateY(-2px); box-shadow:0 10px 28px rgba(249,115,22,.3); }
-
-/* footer */
-footer { background:var(--ink); border-top:1px solid var(--border); padding:1.65rem 3rem; display:flex; align-items:center; justify-content:space-between; position:relative; z-index:1; }
-.footer-l { font-family:'Space Mono',monospace; font-size:.68rem; color:var(--muted); }
-.footer-r { font-family:'Space Mono',monospace; font-size:.68rem; color:var(--muted); }
-.footer-r span { color:var(--orange); }
-.section-divider { width:100%; height:1px; background:linear-gradient(to right,transparent,var(--border),transparent); }
-
-/* reveal */
-.reveal { opacity:0; transform:translateY(24px); transition:opacity .6s ease,transform .6s ease; }
-.reveal.visible { opacity:1; transform:none; }
-
-@media(max-width:900px){
-  nav { padding:1rem 1.5rem; }
-  .nav-links { display:none; }
-  #hero, .section-inner { padding-left:1.5rem; padding-right:1.5rem; }
-  .about-grid, .contact-grid { grid-template-columns:1fr; gap:2rem; }
-  .skills-grid { grid-template-columns:1fr 1fr; }
-  .projects-bento { grid-template-columns:1fr; }
-  .project-card.pc-ms { grid-row:auto; }
-  footer { flex-direction:column; gap:.6rem; text-align:center; }
+.nav-logo {
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: 0.02em;
 }
-@media(max-width:600px){ .skills-grid{grid-template-columns:1fr} .about-stats{grid-template-columns:1fr 1fr} }
-@media(prefers-reduced-motion:reduce){ *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important} }
+.nav-logo span { color: var(--rust); }
+.nav-links {
+  display: flex;
+  gap: 22px;
+  align-items: center;
+  list-style: none;
+}
+.nav-links a {
+  font-family: 'Caveat', cursive;
+  font-size: 17px;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.18s;
+}
+.nav-links a:hover { color: var(--rust); }
+.nav-cta {
+  font-family: 'Caveat', cursive;
+  font-size: 15px;
+  background: var(--ink);
+  color: #f5f0e8;
+  padding: 6px 16px;
+  border-radius: 22px;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.nav-cta:hover { background: var(--rust); }
+
+/* ─── HERO ─── */
+.hero {
+  padding: 44px 40px 32px;
+  padding-left: 80px;
+  display: flex;
+  align-items: flex-start;
+  gap: 48px;
+  position: relative;
+  min-height: 320px;
+}
+.hero-text {
+  flex: 1;
+  padding-top: 4px;
+  max-width: 480px;
+}
+.hero-eyebrow {
+  font-family: 'Caveat', cursive;
+  font-size: 14px;
+  color: var(--rust);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.hero-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 26px;
+  height: 1.5px;
+  background: var(--rust);
+}
+.hero-name {
+  font-family: 'Caveat', cursive;
+  font-size: 62px;
+  font-weight: 700;
+  line-height: 0.95;
+  color: var(--ink);
+  margin-bottom: 10px;
+  letter-spacing: -0.01em;
+}
+.hero-name em {
+  color: var(--rust);
+  font-style: normal;
+}
+.hero-tagline {
+  font-family: 'Caveat', cursive;
+  font-size: 24px;
+  color: var(--muted);
+  margin-bottom: 18px;
+  line-height: 1.35;
+  font-weight: 400;
+}
+.hero-desc {
+  font-size: 14px;
+  color: #4a3d58;
+  line-height: 1.75;
+  max-width: 380px;
+  margin-bottom: 26px;
+}
+.hero-btns {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.btn-solid {
+  font-family: 'Caveat', cursive;
+  font-size: 17px;
+  background: var(--ink);
+  color: #f5f0e8;
+  padding: 8px 22px;
+  border-radius: 26px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.2s, transform 0.15s;
+}
+.btn-solid:hover { background: var(--rust); transform: translateY(-1px); }
+.btn-outline {
+  font-family: 'Caveat', cursive;
+  font-size: 17px;
+  background: transparent;
+  color: var(--ink);
+  padding: 7px 20px;
+  border-radius: 26px;
+  border: 1.5px solid rgba(42,33,24,0.38);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: border-color 0.2s, color 0.2s, transform 0.15s;
+}
+.btn-outline:hover { border-color: var(--rust); color: var(--rust); transform: translateY(-1px); }
+
+/* ─── HERO PHOTO CLUSTER ─── */
+.hero-cluster {
+  width: 420px;
+  height: 420px;
+  position: relative;
+  flex-shrink: 0;
+  z-index: 3;
+  margin-top: -4px;
+}
+.hpol {
+  position: absolute;
+  background: #fff;
+  padding: 10px 10px 36px;
+  box-shadow: 3px 4px 18px rgba(0,0,0,0.2), 0 1px 4px rgba(0,0,0,0.09);
+  transition: transform 0.28s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.28s ease;
+  cursor: pointer;
+  z-index: 2;
+}
+.hpol:hover {
+  transform: translateY(-10px) scale(1.07) !important;
+  box-shadow: 6px 14px 38px rgba(0,0,0,0.26);
+  z-index: 20;
+}
+/* Photo booth strip — tall narrow format */
+.hpol.booth {
+  padding: 8px 8px 10px;
+  background: #1a1020;
+}
+.hpol.booth .hpol-label { color: rgba(255,255,255,0.55); }
+/* Printed photo — borderless, no bottom caption space */
+.hpol.print {
+  padding: 0;
+  box-shadow: 2px 3px 14px rgba(0,0,0,0.22), 0 1px 3px rgba(0,0,0,0.1);
+}
+.hpol-img { display: block; width: 100%; overflow: hidden; }
+.hpol-label {
+  font-family: 'Caveat', cursive;
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 5px;
+  display: block;
+}
+.htape {
+  position: absolute;
+  height: 14px;
+  border-radius: 1px;
+  z-index: 10;
+  pointer-events: none;
+}
+.hand-note {
+  font-family: 'Caveat', cursive;
+  font-size: 12.5px;
+  color: #7a5f72;
+  transform-origin: center;
+}
+
+/* ─── SECTION DIVIDER ─── */
+.zig {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 6px 40px;
+}
+.zig-line {
+  flex: 1;
+  height: 1.5px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--rust) 0, var(--rust) 5px,
+    transparent 5px, transparent 11px
+  );
+  opacity: 0.3;
+}
+.zig-label {
+  font-family: 'Caveat', cursive;
+  font-size: 13px;
+  color: var(--rust);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ─── ABOUT ─── */
+.about-section {
+  padding: 26px 40px 30px;
+  display: grid;
+  grid-template-columns: 1fr 230px;
+  gap: 24px;
+  align-items: start;
+}
+.about-heading {
+  font-family: 'Caveat', cursive;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.15;
+  margin-bottom: 12px;
+}
+.about-heading span { color: var(--rust); }
+.about-body {
+  font-size: 13.5px;
+  color: #4a3d58;
+  line-height: 1.8;
+  max-width: 440px;
+}
+.about-body + .about-body { margin-top: 10px; }
+
+.skills-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 16px;
+}
+.skill-pill {
+  font-family: 'Caveat', cursive;
+  font-size: 14px;
+  padding: 3px 12px;
+  border-radius: 22px;
+  border: 1.5px solid;
+  transition: transform 0.18s;
+}
+.skill-pill:hover { transform: translateY(-2px); }
+.sp-r { border-color: var(--rust); color: var(--rust); background: rgba(240,135,0,0.07); }
+.sp-b { border-color: var(--slate); color: var(--slate); background: rgba(173,145,163,0.1); }
+.sp-g { border-color: var(--sage); color: var(--sage); background: rgba(138,110,130,0.08); }
+
+/* notebook card */
+.nb-card {
+  background: rgba(255,255,255,0.82);
+  border: 1px solid rgba(173,145,163,0.25);
+  border-radius: 7px;
+  padding: 15px;
+  box-shadow: 2px 3px 10px rgba(0,0,0,0.07);
+  position: relative;
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.85;
+}
+.nb-card::before {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 30px;
+  width: 1px;
+  background: rgba(240,135,0,0.28);
+}
+.nb-title {
+  font-family: 'Caveat', cursive;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 9px;
+  padding-left: 22px;
+}
+.nb-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  padding-left: 22px;
+  margin-bottom: 3px;
+}
+.nb-arrow { color: var(--rust); flex-shrink: 0; }
+
+/* sticky */
+.sticky {
+  background: #fde68a;
+  padding: 10px 13px;
+  border-radius: 2px;
+  box-shadow: 2px 3px 9px rgba(26,20,35,0.15), 0 1px 2px rgba(26,20,35,0.08);
+  font-family: 'Caveat', cursive;
+  font-size: 13px;
+  color: #3a2e0a;
+  line-height: 1.55;
+}
+
+/* ─── PROJECTS ─── */
+.projects-section {
+  padding: 26px 40px 30px;
+}
+.sec-heading {
+  font-family: 'Caveat', cursive;
+  font-size: 34px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.1;
+  margin-bottom: 6px;
+}
+.sec-heading span { color: var(--rust); }
+.sec-sub {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+.projects-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+.proj-card {
+  background: rgba(255,255,255,0.82);
+  border: 1px solid rgba(173,145,163,0.22);
+  border-radius: 9px;
+  padding: 18px;
+  position: relative;
+  box-shadow: 2px 3px 10px rgba(0,0,0,0.07);
+  overflow: hidden;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+.proj-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 3px 7px 20px rgba(0,0,0,0.12);
+}
+.proj-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+.pc-r::before { background: var(--rust); }
+.pc-b::before { background: var(--slate); }
+.proj-tape {
+  position: absolute;
+  height: 13px;
+  border-radius: 1px;
+  z-index: 5;
+}
+.proj-tags {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-bottom: 9px;
+  margin-top: 4px;
+}
+.ptag {
+  font-family: 'Caveat', cursive;
+  font-size: 11.5px;
+  padding: 2px 9px;
+  border-radius: 10px;
+  border: 1px solid;
+}
+.pt-r { border-color: rgba(240,135,0,0.35); color: var(--rust); background: rgba(240,135,0,0.06); }
+.pt-b { border-color: rgba(173,145,163,0.4); color: var(--slate); background: rgba(173,145,163,0.08); }
+.pt-g { border-color: rgba(138,110,130,0.35); color: var(--sage); background: rgba(138,110,130,0.07); }
+.proj-title {
+  font-family: 'Caveat', cursive;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 6px;
+  line-height: 1;
+}
+.proj-desc {
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 14px;
+}
+.proj-links { display: flex; gap: 9px; flex-wrap: wrap; }
+.plink {
+  font-family: 'Caveat', cursive;
+  font-size: 14px;
+  padding: 4px 14px;
+  border-radius: 16px;
+  cursor: pointer;
+  border: 1.5px solid;
+  text-decoration: none;
+  transition: background 0.18s, color 0.18s;
+  display: inline-block;
+}
+.pl-r { border-color: var(--rust); color: var(--rust); }
+.pl-r:hover { background: var(--rust); color: #fff; }
+.pl-b { border-color: var(--slate); color: var(--slate); }
+.pl-b:hover { background: var(--slate); color: #fff; }
+.pl-ghost { border-color: rgba(42,33,24,0.24); color: var(--muted); }
+.pl-ghost:hover { border-color: var(--ink); color: var(--ink); }
+
+.coming-card {
+  grid-column: 1 / -1;
+  border: 1.5px dashed rgba(173,145,163,0.3);
+  border-radius: 9px;
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255,255,255,0.3);
+}
+.coming-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--rust2);
+  animation: blink 1.7s ease-in-out infinite;
+  flex-shrink: 0;
+}
+@keyframes blink { 0%,100%{opacity:.2} 50%{opacity:.8} }
+.coming-text {
+  font-family: 'Caveat', cursive;
+  font-size: 16px;
+  color: rgba(173,145,163,0.6);
+  letter-spacing: 0.12em;
+}
+
+/* ─── BOTTOM POLAROID ROW ─── */
+.bottom-pols {
+  padding: 30px 40px 24px;
+  display: flex;
+  gap: 18px;
+  justify-content: center;
+  align-items: flex-end;
+  overflow: visible;
+  position: relative;
+}
+.bpol {
+  background: #fff;
+  padding: 7px 7px 26px;
+  box-shadow: 3px 4px 14px rgba(0,0,0,0.18);
+  position: relative;
+  flex-shrink: 0;
+  transition: transform 0.28s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.28s ease;
+  cursor: pointer;
+  z-index: 2;
+}
+.bpol:hover {
+  transform: translateY(-14px) scale(1.08) !important;
+  box-shadow: 5px 12px 32px rgba(0,0,0,0.24);
+  z-index: 20;
+}
+.bpol-img { display: block; }
+.bpol-label {
+  font-family: 'Caveat', cursive;
+  font-size: 11px;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 4px;
+}
+
+/* ─── CONTACT ─── */
+.contact-section {
+  padding: 28px 40px 36px;
+  background: var(--ink);
+  display: grid;
+  grid-template-columns: 1fr 200px;
+  gap: 28px;
+  align-items: start;
+}
+.contact-heading {
+  font-family: 'Caveat', cursive;
+  font-size: 36px;
+  font-weight: 700;
+  color: #f2eef4;
+  line-height: 1.1;
+  margin-bottom: 10px;
+}
+.contact-heading span { color: #F08700; }
+.contact-body {
+  font-size: 13px;
+  color: rgba(173,145,163,0.75);
+  line-height: 1.75;
+  margin-bottom: 20px;
+  max-width: 380px;
+}
+.contact-links { display: flex; flex-direction: column; gap: 9px; }
+.clink {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  text-decoration: none;
+  color: rgba(242,238,244,0.65);
+  font-family: 'Caveat', cursive;
+  font-size: 16px;
+  transition: color 0.18s;
+}
+.clink:hover { color: #F08700; }
+.clink-box {
+  width: 32px; height: 32px;
+  border: 1px solid rgba(173,145,163,0.25);
+  border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  flex-shrink: 0;
+  transition: border-color 0.18s, background 0.18s;
+}
+.clink:hover .clink-box {
+  border-color: #F08700;
+  background: rgba(240,135,0,0.12);
+}
+.contact-card {
+  background: rgba(173,145,163,0.08);
+  border: 1px solid rgba(173,145,163,0.2);
+  border-radius: 11px;
+  padding: 18px;
+}
+.avail-row {
+  display: flex; align-items: center; gap: 7px;
+  font-family: 'Caveat', cursive;
+  font-size: 12px;
+  color: #4ade80;
+  letter-spacing: 0.1em;
+  margin-bottom: 12px;
+}
+.avail-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #4ade80;
+  animation: pulse 2.1s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%{box-shadow:0 0 0 0 rgba(74,222,128,.4)}
+  70%{box-shadow:0 0 0 8px rgba(74,222,128,0)}
+  100%{box-shadow:0 0 0 0 rgba(74,222,128,0)}
+}
+.contact-card-title {
+  font-family: 'Caveat', cursive;
+  font-size: 19px;
+  font-weight: 700;
+  color: #f2eef4;
+  margin-bottom: 7px;
+}
+.contact-card-sub {
+  font-size: 11.5px;
+  color: rgba(173,145,163,0.6);
+  line-height: 1.7;
+  margin-bottom: 14px;
+}
+.email-btn {
+  display: block;
+  background: #F08700;
+  color: #1A1423;
+  font-family: 'Caveat', cursive;
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
+  padding: 9px;
+  border-radius: 22px;
+  text-decoration: none;
+  transition: background 0.18s, transform 0.15s;
+}
+.email-btn:hover { background: #f9a030; transform: translateY(-1px); }
+
+/* ─── FOOTER ─── */
+footer {
+  background: #120e1a;
+  padding: 14px 40px;
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.footer-l {
+  font-family: 'Caveat', cursive;
+  font-size: 13px;
+  color: rgba(173,145,163,0.4);
+}
+.footer-r {
+  font-family: 'Caveat', cursive;
+  font-size: 13px;
+  color: rgba(173,145,163,0.4);
+}
+.footer-r span { color: #F08700; }
+
+@media (max-width: 820px) {
+  .page-shell { grid-template-columns: 0 1fr 0; }
+  .gutter { display: none; }
+  .hero { flex-direction: column; padding: 28px 20px 20px; gap: 24px; }
+  .hero-cluster { width: 100%; height: 260px; }
+  .about-section, .contact-section { grid-template-columns: 1fr; padding: 20px; }
+  .projects-section, .hero, .projects-section { padding-left: 20px; padding-right: 20px; }
+  .zig { padding-left: 20px; padding-right: 20px; }
+  .projects-grid { grid-template-columns: 1fr; }
+  nav { padding: 12px 18px; }
+  .bottom-pols { gap: 10px; padding: 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* ─── CAMERA CURSOR ─── */
+body, body * { cursor: none !important; }
+
+#cam-cursor {
+  position: fixed;
+  width: 28px;
+  height: 28px;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.08s ease, opacity 0.2s;
+  opacity: 0;
+  will-change: left, top;
+}
+#cam-cursor.visible { opacity: 1; }
+/* flash ring on click */
+#cam-cursor.flash::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.85);
+  animation: camFlash 0.35s ease-out forwards;
+}
+@keyframes camFlash {
+  0%   { opacity: 1; transform: scale(0.8); }
+  100% { opacity: 0; transform: scale(1.8); }
+}
 </style>
 </head>
 <body>
 
-<div id="cur"></div>
-<div id="cur-ring"></div>
-<canvas id="bg-canvas"></canvas>
+<!-- Camera cursor — moves with mouse sitewide -->
+<div id="cam-cursor" aria-hidden="true">
+  <svg viewBox="0 0 28 24" xmlns="http://www.w3.org/2000/svg" fill="none">
+    <!-- camera body -->
+    <rect x="1" y="5" width="26" height="17" rx="3" fill="#1A1423" stroke="#f5f2f7" stroke-width="0.8"/>
+    <!-- viewfinder bump -->
+    <rect x="9" y="2" width="10" height="5" rx="1.5" fill="#1A1423" stroke="#f5f2f7" stroke-width="0.8"/>
+    <!-- lens outer ring -->
+    <circle cx="14" cy="13.5" r="5.2" fill="#2d2038" stroke="#f5f2f7" stroke-width="0.8"/>
+    <!-- lens inner -->
+    <circle cx="14" cy="13.5" r="3.2" fill="#1a1010"/>
+    <!-- lens gleam -->
+    <circle cx="12.5" cy="12" r="1" fill="rgba(255,255,255,0.55)"/>
+    <!-- flash -->
+    <rect x="3" y="7.5" width="4" height="3" rx="0.8" fill="#e8c060" opacity="0.9"/>
+    <!-- shutter blink overlay -->
+    <rect id="cam-shutter" x="1" y="5" width="26" height="17" rx="3" fill="white" opacity="0" style="transition:opacity 0.08s;"/>
+  </svg>
+</div>
 
-<!-- NAV -->
-<nav>
-  <a href="#" class="nav-logo">// <span>jacinta thomas</span></a>
-  <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#skills">Stack</a></li>
-    <li><a href="#projects">Work</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-  <a href="#contact" class="nav-cta">Open to work →</a>
-</nav>
+<div class="page-shell">
 
-<!-- HERO -->
-<section id="hero">
-  <div class="hero-eyebrow">Software Engineer</div>
-  <h1 class="hero-name">
-    <span class="o">web design &amp; dev.</span><br/>
-    <span class="b">frontend.</span><br/>
-    <span class="p">backend.</span>
-  </h1>
-  <div class="hero-role-line">
-    Currently making&nbsp;<span class="role-spin" id="roleEl">links worth clicking</span>
-  </div>
-  <p class="hero-desc">
-     I'm Jacinta Thomas and I like creating fun and unique web applications. I am a individual whos obsessed with that tiny moment an interface stops feeling like software and starts feeling like a thought you can play with ♥︎.
-  </p>
-  <div class="hero-actions">
-    <a href="#projects" class="btn-primary">See what I've made ↓</a>
-    <a href="#contact" class="btn-ghost">Say hello 👋🏾</a>
-  </div>
-  <div class="hero-scroll"><div class="scroll-line"></div></div>
-</section>
+  <!-- LEFT GUTTER -->
+  <div class="gutter" id="gutterL"></div>
 
-<!-- ABOUT -->
-<section id="about">
-  <div class="section-inner">
-    <div class="section-label">About</div>
-    <h2 class="section-title"></h2>
-    <div class="about-grid">
-      <div class="about-text reveal">
-        <p>I'm a Computer Science undergraduate with a quiet obsession: <em>making software that doesn't feel like software</em>. </p>
-        <p>Between the suceesful and failed builds I play with, I'm currently studying AI Automation and figuring out <em>the best AI features are the ones nobody notices</em>.</p>
-      </div>
-      <div class="about-stats reveal">
-        <div class="stat-card"><div class="stat-num o">WEB DESIGN</div><div class="stat-label">Lead the design and implemenation for Moodsync'd project.</div></div>
-        <div class="stat-card"><div class="stat-num b">BACKEND DEV</div><div class="stat-label">Always open to refresh my abilities in API connections, Databases and power automations.</div></div>
-        <div class="stat-card"><div class="stat-num p">UX DESGIN</div><div class="stat-label">Favorite part of developing is in the design portion, where the magic happens and brand visuals are developed to become eye catching visuals.</div></div>
-        <div class="stat-card"><div class="stat-num o">AI AUTOMATION</div><div class="stat-label">Genuine curiosity in learning to use todays newest tools for a better final product.</div></div>
-      </div>
-    </div>
-  </div>
-</section>
+  <!-- MAIN COLUMN -->
+  <div class="main-col">
 
-<div class="section-divider"></div>
+    <!-- NAV -->
+    <nav>
+      <a href="#" class="nav-logo">jacinta<span>.dev</span></a>
+      <ul class="nav-links">
+        <li><a href="#about">about</a></li>
+        <li><a href="#projects">work</a></li>
+        <li><a href="#contact">contact</a></li>
+      </ul>
+      <a href="#contact" class="nav-cta">say hello</a>
+    </nav>
 
-<!-- SKILLS -->
-<section id="skills">
-  <div class="section-inner">
-    <div class="section-label">The stack</div>
-    <h2 class="section-title">Tools that <span class="acc">do the work</span></h2>
-    <div class="skills-grid">
-      <div class="skill-group sk-o reveal">
-        <div class="skill-group-title">Software Dev &amp; Tools</div>
-        <div class="skill-tags">
-          <span class="skill-tag">GitHub</span><span class="skill-tag">VSCode</span><span class="skill-tag">Figma</span><span class="skill-tag">Node.js</span><span class="skill-tag">React.js</span><span class="skill-tag">Render</span>
-        </div>
-      </div>
-      <div class="skill-group sk-b reveal">
-        <div class="skill-group-title">Programming Languages</div>
-        <div class="skill-tags">
-          <span class="skill-tag">C/C++</span><span class="skill-tag">Python</span><span class="skill-tag">JavaScript</span><span class="skill-tag">HTML/CSS</span><span class="skill-tag">MATLAB</span></div><span class="skill-tag">Java</span><span class="skill-tag">SQL</span>      
-      </div>
-      <div class="skill-group sk-p reveal">
-        <div class="skill-group-title">AI &amp; Integration</div>
-        <div class="skill-tags">
-          <span class="skill-tag">MCPs</span><span class="skill-tag">LLM Integration</span><span class="skill-tag">Prompt Eng.</span><span class="skill-tag">RAG Architecture</span><span class="skill-tag">n8n Workflow Automation</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+    <!-- HERO -->
+    <section id="hero" class="hero">
 
-<div class="section-divider"></div>
+      <!-- tape scraps -->
+      <div class="htape" style="width:58px;background:rgba(240,135,0,0.38);transform:rotate(-11deg);top:22px;left:80px;opacity:0.72;"></div>
+      <div class="htape" style="width:48px;background:rgba(173,145,163,0.4);transform:rotate(9deg);top:20px;right:72px;opacity:0.72;"></div>
 
-<!-- PROJECTS -->
-<section id="projects">
-  <div class="section-inner">
-    <div class="section-label">Selected work</div>
-    <h2 class="section-title">Things I've <span class="acc">actually built</span></h2>
-    <div class="projects-bento">
-
-      <!-- MoodSync — tall left -->
-      <div class="project-card pc-ms reveal">
-        <div class="card-visual tall">
-          <!-- CSS audio visualizer animation -->
-          <div class="ms-visual">
-            <div class="ms-label">mood → music</div>
-            <!-- animated waveform -->
-            <div class="ms-wave">
-              <svg viewBox="0 0 300 22" preserveAspectRatio="none">
-                <path d="M0,11 C20,11 30,2 50,11 C70,20 80,4 100,11 C120,18 130,5 150,11 C170,17 180,3 200,11 C220,19 230,6 250,11 C270,16 280,4 300,11" class="wave-path"/>
-              </svg>
-            </div>
-            <!-- orbit ring + center -->
-            <div class="ms-orbit">
-              <div class="ms-orbit-ring"></div>
-              <div class="ms-center"></div>
-              <!-- mood dots -->
-              <div class="ms-dot" style="--od:6s;--os:0deg;background:#F97316;margin-top:-4px;margin-left:-4px;"></div>
-              <div class="ms-dot" style="--od:6s;--os:72deg;background:#60A5FA;margin-top:-4px;margin-left:-4px;"></div>
-              <div class="ms-dot" style="--od:6s;--os:144deg;background:#A855F7;margin-top:-4px;margin-left:-4px;"></div>
-              <div class="ms-dot" style="--od:6s;--os:216deg;background:#FB923C;margin-top:-4px;margin-left:-4px;"></div>
-              <div class="ms-dot" style="--od:6s;--os:288deg;background:#818CF8;margin-top:-4px;margin-left:-4px;"></div>
-            </div>
-            <!-- bars -->
-            <div class="ms-bars">
-              <div class="ms-bar" style="--d:0.9s;height:55%;background:rgba(249,115,22,.8);animation-delay:0s"></div>
-              <div class="ms-bar" style="--d:1.3s;height:72%;background:rgba(240,100,40,.75);animation-delay:.07s"></div>
-              <div class="ms-bar" style="--d:1.0s;height:88%;background:rgba(220,80,100,.72);animation-delay:.14s"></div>
-              <div class="ms-bar" style="--d:0.8s;height:64%;background:rgba(190,70,160,.7);animation-delay:.21s"></div>
-              <div class="ms-bar" style="--d:1.5s;height:95%;background:rgba(168,85,247,.8);animation-delay:.28s"></div>
-              <div class="ms-bar" style="--d:1.1s;height:78%;background:rgba(150,100,252,.75);animation-delay:.35s"></div>
-              <div class="ms-bar" style="--d:0.85s;height:60%;background:rgba(100,130,250,.72);animation-delay:.42s"></div>
-              <div class="ms-bar" style="--d:1.2s;height:82%;background:rgba(96,165,250,.8);animation-delay:.49s"></div>
-              <div class="ms-bar" style="--d:1.4s;height:70%;background:rgba(100,160,248,.75);animation-delay:.56s"></div>
-              <div class="ms-bar" style="--d:1.0s;height:55%;background:rgba(96,165,250,.7);animation-delay:.63s"></div>
-              <div class="ms-bar" style="--d:0.95s;height:90%;background:rgba(110,140,252,.78);animation-delay:.70s"></div>
-              <div class="ms-bar" style="--d:1.35s;height:65%;background:rgba(140,110,250,.73);animation-delay:.77s"></div>
-              <div class="ms-bar" style="--d:1.05s;height:76%;background:rgba(168,85,247,.8);animation-delay:.84s"></div>
-              <div class="ms-bar" style="--d:0.88s;height:52%;background:rgba(190,70,200,.72);animation-delay:.91s"></div>
-              <div class="ms-bar" style="--d:1.25s;height:84%;background:rgba(220,60,160,.75);animation-delay:.98s"></div>
-              <div class="ms-bar" style="--d:0.92s;height:68%;background:rgba(240,70,120,.73);animation-delay:1.05s"></div>
-              <div class="ms-bar" style="--d:1.15s;height:92%;background:rgba(249,115,22,.8);animation-delay:1.12s"></div>
-              <div class="ms-bar" style="--d:1.45s;height:59%;background:rgba(251,146,60,.75);animation-delay:1.19s"></div>
-            </div>
-            <span class="canvas-badge cb-orange">MoodSync — Live Vis</span>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="card-tags">
-            <span class="card-tag ct-o">AI-Powered</span>
-            <span class="card-tag ct-b">Music</span>
-            <span class="card-tag ct-o">Generative</span>
-          </div>
-          <div class="card-title">MoodSync'd 🎵</div>
-          <p class="card-desc">A generative playlist engine that reads emotional state and builds a listening experience around it — not genre, not tempo, but <em>feeling</em>. Backed by AI-driven recommendations and real-time music APIs.<br><br>It watches listening patterns, adapts over time, and gradually learns the distance between what you say you want and what you actually keep playing.</p>
-          <div class="card-links">
-            <a href="https://moodsync-d.vercel.app/" target="_blank" class="card-link cl-primary">↗ Live Demo</a>
-            <a href="#" class="card-link cl-ghost">⌥ GitHub</a>
-          </div>
+      <div class="hero-text">
+        <div class="hero-eyebrow">cs student + creator</div>
+        <div class="hero-name">hi, i'm<br/><em>jacinta.</em></div>
+        <div class="hero-tagline">i design. i build.<br/>i make things worth using.</div>
+        <p class="hero-desc">CS undergrad chasing the intersection of design and development — from AI baby trackers to mood-driven playlists. If it lives on a screen, I want to make it feel intentional.</p>
+        <div class="hero-btns">
+          <a href="#projects" class="btn-solid">see my work</a>
+          <a href="#contact" class="btn-outline">get in touch</a>
         </div>
       </div>
 
-      <!-- KODA — top right -->
-      <div class="project-card pc-kd reveal">
-        <div class="card-visual short">
-          <!-- CSS enchanted forest scene -->
-          <div class="kd-visual">
-            <!-- stars -->
-            <div class="kd-stars">
-              <div class="kd-star" style="top:8%;left:12%;--tw:2.3s;opacity:.6"></div>
-              <div class="kd-star" style="top:14%;left:30%;--tw:3.1s;opacity:.4"></div>
-              <div class="kd-star" style="top:5%;left:55%;--tw:2.8s;opacity:.7"></div>
-              <div class="kd-star" style="top:20%;left:72%;--tw:1.9s;opacity:.5"></div>
-              <div class="kd-star" style="top:10%;left:85%;--tw:3.5s;opacity:.55"></div>
-              <div class="kd-star" style="top:28%;left:18%;--tw:2.6s;opacity:.35"></div>
-              <div class="kd-star" style="top:32%;left:48%;--tw:3.8s;opacity:.5"></div>
-              <div class="kd-star" style="top:6%;left:92%;--tw:2.2s;opacity:.65"></div>
+      <!-- ════════════════════════════════════════════
+           HERO PHOTO CLUSTER — HOW TO SWAP PHOTOS
+           ════════════════════════════════════════════
+           There are 5 photos in 3 different formats:
+
+           POLAROID (.hpol — white border + caption below)
+             Replace the <svg> inside .hpol-img with:
+             <img src="your-photo.jpg" style="width:100%;height:100%;object-fit:cover;display:block;"/>
+             Then update the <span class="hpol-label"> text caption.
+
+           PHOTO BOOTH STRIP (.hpol.booth — dark surround, 3-frame strip)
+             Replace each <svg> inside .booth-frame with an <img> the same way.
+             Keep the strip wrapper intact so the dark border stays.
+
+           PRINTED PHOTO (.hpol.print — borderless, no caption)
+             Replace the <svg> with an <img> tag directly.
+             Recommended size: landscape 4x6 ratio (width ~200px, height ~130px).
+
+           TIP: All photos use object-fit:cover so any aspect ratio will fill cleanly.
+           ════════════════════════════════════════════ -->
+      <div class="hero-cluster">
+
+        <!-- PHOTO 1: Polaroid — nature / golden hour
+             Swap: replace the <svg> below with <img src="your-nature-photo.jpg" style="width:100%;height:100%;object-fit:cover;display:block;"/> -->
+        <div class="hpol" style="width:148px;transform:rotate(-8deg);top:18px;left:0;z-index:1;">
+          <div class="hpol-img" style="height:118px;">
+            <svg viewBox="0 0 148 118" width="148" height="118"><rect width="148" height="118" fill="#7aad6e"/><ellipse cx="74" cy="108" rx="74" ry="20" fill="#2d5c28"/><rect x="68" y="18" width="10" height="76" fill="#4a3020" rx="2"/><ellipse cx="72" cy="28" rx="30" ry="34" fill="#3d7a35"/><ellipse cx="80" cy="18" rx="22" ry="26" fill="#4a8f40"/><circle cx="38" cy="76" r="4" fill="#ffd700" opacity="0.55"/><circle cx="108" cy="68" r="3" fill="#ffd700" opacity="0.45"/><rect width="148" height="118" fill="rgba(0,0,0,0.03)"/></svg>
+          </div>
+          <span class="hpol-label">golden hour</span>
+        </div>
+        <div class="htape" style="width:44px;background:rgba(240,135,0,0.46);transform:rotate(-5deg);top:12px;left:44px;z-index:12;"></div>
+
+        <!-- PHOTO 2: Polaroid — friends
+             Swap: replace the <svg> below with <img src="your-friends-photo.jpg" style="width:100%;height:100%;object-fit:cover;display:block;"/> -->
+        <div class="hpol" style="width:162px;transform:rotate(5deg);top:8px;left:160px;z-index:3;">
+          <div class="hpol-img" style="height:122px;">
+            <svg viewBox="0 0 162 122" width="162" height="122"><rect width="162" height="122" fill="#f7c5a0"/><ellipse cx="52" cy="74" rx="24" ry="30" fill="#f5cba7"/><circle cx="52" cy="46" r="18" fill="#e8b090"/><ellipse cx="112" cy="70" rx="22" ry="28" fill="#d4a574"/><circle cx="112" cy="44" r="16" fill="#c49060"/><rect y="98" width="162" height="24" fill="#e8956a" opacity="0.36"/></svg>
+          </div>
+          <span class="hpol-label">summer '24</span>
+        </div>
+        <div class="htape" style="width:38px;background:rgba(173,145,163,0.52);transform:rotate(52deg);top:2px;left:218px;z-index:12;"></div>
+
+        <!-- PHOTO 3: Photo booth strip — dark format with 3 frames
+             Swap: replace each <svg class="booth-frame"> with <img src="your-photo.jpg" style="width:100%;height:100%;object-fit:cover;display:block;"/>
+             Keep the dark background (.hpol.booth) — it's part of the photo booth look. -->
+        <div class="hpol booth" style="width:82px;transform:rotate(5deg);top:30px;left:330px;z-index:5;padding:8px 8px 12px;">
+          <div style="display:flex;flex-direction:column;gap:4px;">
+            <div class="booth-frame" style="height:62px;overflow:hidden;background:#2a1a3a;">
+              <svg viewBox="0 0 66 62" width="66" height="62" class="booth-frame"><rect width="66" height="62" fill="#2a1a3a"/><circle cx="33" cy="31" r="14" fill="#3d2a5a"/><circle cx="33" cy="31" r="7" fill="#e879b0" opacity="0.7"/><circle cx="26" cy="26" r="5" fill="#f5c4d0" opacity="0.5"/></svg>
             </div>
-            <!-- moon -->
-            <div class="kd-moon"></div>
-            <!-- ground -->
-            <div class="kd-ground"></div>
-            <!-- trees (SVG inline) -->
-            <div class="kd-tree" style="left:3%;bottom:26%;">
-              <svg width="36" height="70" viewBox="0 0 36 70" fill="none">
-                <rect x="15" y="48" width="6" height="22" fill="#2d1b0a"/>
-                <ellipse cx="18" cy="46" rx="14" ry="18" fill="#0b3015"/>
-                <ellipse cx="18" cy="32" rx="11" ry="14" fill="#0d3815"/>
-                <ellipse cx="18" cy="20" rx="8" ry="11" fill="#0f4018"/>
-              </svg>
+            <div class="booth-frame" style="height:62px;overflow:hidden;background:#1a1a2e;">
+              <svg viewBox="0 0 66 62" width="66" height="62" class="booth-frame"><rect width="66" height="62" fill="#1a1a2e"/><ellipse cx="22" cy="38" rx="12" ry="16" fill="#c49060" opacity="0.8"/><circle cx="22" cy="24" r="10" fill="#d4a574" opacity="0.9"/><ellipse cx="46" cy="36" rx="11" ry="15" fill="#b07848" opacity="0.8"/><circle cx="46" cy="22" r="9" fill="#c49060" opacity="0.9"/></svg>
             </div>
-            <div class="kd-tree" style="left:10%;bottom:28%;animation-delay:.5s">
-              <svg width="26" height="52" viewBox="0 0 26 52" fill="none">
-                <rect x="11" y="36" width="4" height="16" fill="#2d1b0a"/>
-                <ellipse cx="13" cy="34" rx="10" ry="13" fill="#0a2d12"/>
-                <ellipse cx="13" cy="22" rx="8" ry="11" fill="#0c3514"/>
-                <ellipse cx="13" cy="12" rx="6" ry="9" fill="#0e3d16"/>
-              </svg>
+            <div class="booth-frame" style="height:62px;overflow:hidden;background:#1a102e;">
+              <svg viewBox="0 0 66 62" width="66" height="62" class="booth-frame"><rect width="66" height="62" fill="#1a102e"/><circle cx="33" cy="31" r="18" fill="#2a2050" opacity="0.7"/><circle cx="33" cy="31" r="9" fill="#ff6b9d" opacity="0.55"/><circle cx="24" cy="24" r="6" fill="#f5e0ff" opacity="0.35"/></svg>
             </div>
-            <div class="kd-tree" style="right:4%;bottom:26%;animation-delay:1s">
-              <svg width="32" height="64" viewBox="0 0 32 64" fill="none">
-                <rect x="13" y="44" width="6" height="20" fill="#2d1b0a"/>
-                <ellipse cx="16" cy="42" rx="12" ry="16" fill="#0b3015"/>
-                <ellipse cx="16" cy="28" rx="10" ry="13" fill="#0d3815"/>
-                <ellipse cx="16" cy="17" rx="7" ry="10" fill="#0f4018"/>
-              </svg>
-            </div>
-            <div class="kd-tree" style="right:12%;bottom:28%;animation-delay:1.8s">
-              <svg width="22" height="46" viewBox="0 0 22 46" fill="none">
-                <rect x="9" y="32" width="4" height="14" fill="#2d1b0a"/>
-                <ellipse cx="11" cy="30" rx="9" ry="11" fill="#0a2d12"/>
-                <ellipse cx="11" cy="20" rx="7" ry="9" fill="#0c3514"/>
-                <ellipse cx="11" cy="12" rx="5" ry="7" fill="#0e3d16"/>
-              </svg>
-            </div>
-            <!-- bear -->
-            <div class="kd-bear">
-              <svg width="54" height="66" viewBox="0 0 54 66" fill="none">
-                <ellipse cx="27" cy="57" rx="20" ry="7" fill="#000" opacity=".2"/>
-                <ellipse cx="27" cy="44" rx="20" ry="22" fill="#C8914A"/>
-                <ellipse cx="27" cy="44" rx="20" ry="22" stroke="#A0702F" stroke-width="1.1"/>
-                <ellipse cx="27" cy="51" rx="12" ry="14" fill="#E8B87A"/>
-                <circle cx="27" cy="22" r="16" fill="#C8914A"/>
-                <circle cx="27" cy="22" r="16" stroke="#A0702F" stroke-width="1.1"/>
-                <circle cx="14" cy="8" r="6" fill="#C8914A" stroke="#A0702F" stroke-width="1"/>
-                <circle cx="14" cy="8" r="3" fill="#E8B87A"/>
-                <circle cx="40" cy="8" r="6" fill="#C8914A" stroke="#A0702F" stroke-width="1"/>
-                <circle cx="40" cy="8" r="3" fill="#E8B87A"/>
-                <circle cx="21" cy="20" r="2.5" fill="#1a0d06"/>
-                <circle cx="22" cy="19" r="1" fill="#fff"/>
-                <circle cx="33" cy="20" r="2.5" fill="#1a0d06"/>
-                <circle cx="34" cy="19" r="1" fill="#fff"/>
-                <ellipse cx="27" cy="26" rx="4.5" ry="3" fill="#3d1f0a"/>
-                <ellipse cx="8" cy="46" rx="6" ry="12" fill="#C8914A" stroke="#A0702F" stroke-width="1" transform="rotate(15 8 46)"/>
-                <ellipse cx="46" cy="46" rx="6" ry="12" fill="#C8914A" stroke="#A0702F" stroke-width="1" transform="rotate(-15 46 46)"/>
-              </svg>
-            </div>
-            <!-- fireflies -->
-            <div class="kd-firefly" style="top:45%;left:25%;--fs:3.2s;--fg:1.8s;--fx:18px;--fy:-12px;color:#a8f060;background:rgba(168,240,96,.8)"></div>
-            <div class="kd-firefly" style="top:55%;left:60%;--fs:4.1s;--fg:2.3s;--fx:-14px;--fy:-8px;color:#fbdc24;background:rgba(251,220,36,.8)"></div>
-            <div class="kd-firefly" style="top:42%;left:75%;--fs:2.9s;--fg:1.5s;--fx:10px;--fy:-18px;color:#a8f060;background:rgba(168,240,96,.8)"></div>
-            <div class="kd-firefly" style="top:50%;left:42%;--fs:3.8s;--fg:2.8s;--fx:-20px;--fy:-10px;color:#fbdc24;background:rgba(251,220,36,.75)"></div>
-            <span class="canvas-badge cb-purple">KODA — Baby Tracker</span>
+          </div>
+          <div style="font-family:'Caveat',cursive;font-size:10px;color:rgba(255,255,255,0.45);text-align:center;margin-top:5px;">photo booth</div>
+        </div>
+        <div class="htape" style="width:36px;background:rgba(254,240,138,0.65);transform:rotate(-2deg);top:24px;left:348px;z-index:12;"></div>
+
+        <!-- PHOTO 4: Printed photo (borderless landscape) — road / sky
+             Swap: replace the <svg> below with <img src="your-landscape-photo.jpg" style="width:100%;height:100%;object-fit:cover;display:block;"/>
+             This is a borderless print — no white frame, no caption. -->
+        <div class="hpol print" style="width:170px;transform:rotate(-6deg);top:200px;left:4px;z-index:2;">
+          <div style="height:114px;overflow:hidden;">
+            <svg viewBox="0 0 170 114" width="170" height="114"><rect width="170" height="114" fill="#b8d4ec"/><rect y="72" width="170" height="42" fill="#4a7c40"/><ellipse cx="46" cy="36" rx="36" ry="16" fill="rgba(255,255,255,0.78)"/><ellipse cx="124" cy="28" rx="26" ry="12" fill="rgba(255,255,255,0.68)"/><circle cx="140" cy="18" r="14" fill="#FFD700" opacity="0.82"/><rect width="170" height="114" fill="rgba(0,0,0,0.025)"/></svg>
           </div>
         </div>
-        <div class="card-body">
-          <div class="card-tags">
-            <span class="card-tag ct-p">AI Analysis</span>
-            <span class="card-tag ct-b">Mobile App</span>
-            <span class="card-tag ct-p">Calming Visuals</span>
+
+        <!-- PHOTO 5: Polaroid — night / stargazing
+             Swap: replace the <svg> below with <img src="your-night-photo.jpg" style="width:100%;height:100%;object-fit:cover;display:block;"/> -->
+        <div class="hpol" style="width:138px;transform:rotate(9deg);top:248px;left:192px;z-index:4;">
+          <div class="hpol-img" style="height:106px;">
+            <svg viewBox="0 0 138 106" width="138" height="106"><rect width="138" height="106" fill="#0d1b2e"/><circle cx="104" cy="20" r="12" fill="rgba(255,248,200,0.5)"/><circle cx="18" cy="14" r="3" fill="white" opacity="0.8"/><circle cx="70" cy="10" r="2" fill="white" opacity="0.7"/><circle cx="50" cy="28" r="2" fill="white" opacity="0.65"/><circle cx="120" cy="38" r="2.5" fill="white" opacity="0.7"/><circle cx="30" cy="40" r="1.5" fill="white" opacity="0.55"/><rect y="76" width="138" height="30" fill="#0a1a06"/><ellipse cx="69" cy="76" rx="72" ry="14" fill="#112208"/></svg>
           </div>
-          <div class="card-title">KODA 🐻</div>
-          <p class="card-desc">An AI-powered baby tracker wrapped in an forest envoirnment theme. Logs feedings, sleep, diapers, and baby mood — then let the AI surface the patterns that parents can't catch themselves.</p>
-          <div class="card-links">
-            <a href="#" class="card-link cl-p">↗ Prototype - In progress</a>
-            <a href="https://github.com/Team8-Bedrock/koda-babytracker" class="card-link cl-ghost">⌥ GitHub</a>
-          </div>
+          <span class="hpol-label">stargazing</span>
         </div>
+        <div class="htape" style="width:40px;background:rgba(240,135,0,0.44);transform:rotate(6deg);top:242px;left:222px;z-index:12;"></div>
+
+        <div class="hand-note" style="position:absolute;bottom:6px;right:8px;transform:rotate(-5deg);font-size:13px;">summer memories</div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<div class="section-divider"></div>
+    <!-- DIVIDER -->
+    <div class="zig"><div class="zig-line"></div><div class="zig-label">about me</div><div class="zig-line"></div></div>
 
-<!-- CONTACT -->
-<section id="contact">
-  <div class="section-inner">
-    <div class="section-label">Get in touch</div>
-    <div class="contact-grid">
+    <!-- ABOUT -->
+    <section id="about" class="about-section">
       <div>
-        <h2 class="contact-lead">Got something worth <span>building together?</span></h2>
-        <p class="contact-sub">Internship openings, freelance work, or a half-baked idea that needs a technical mind — if it sounds interesting, I probably want to hear about it.</p>
+        <div class="about-heading">the person<br/><span>behind the screen</span></div>
+        <p class="about-body">I'm a Computer Science student with a deep love for design, people, and building things that actually matter. My walls are covered in film photos and polaroids — that same care for capturing real moments is how I approach every project I build.</p>
+        <p class="about-body">I care about web experiences that feel warm, not clinical. I write code the same way I hang a photo — deliberately, with intention, making sure it fits just right.</p>
+        <div class="skills-row">
+          <span class="skill-pill sp-r">React</span>
+          <span class="skill-pill sp-r">HTML / CSS</span>
+          <span class="skill-pill sp-r">JavaScript</span>
+          <span class="skill-pill sp-b">Node.js</span>
+          <span class="skill-pill sp-b">Firebase</span>
+          <span class="skill-pill sp-b">Python</span>
+          <span class="skill-pill sp-g">Figma</span>
+          <span class="skill-pill sp-g">AI / APIs</span>
+        </div>
+      </div>
+      <div style="position:relative;margin-left:-16px;">
+        <div class="nb-card">
+          <div class="nb-title">at a glance</div>
+          <div class="nb-row"><span class="nb-arrow">→</span><span>CS undergrad, class of 2026</span></div>
+          <div class="nb-row"><span class="nb-arrow">→</span><span>web design + dev focus</span></div>
+          <div class="nb-row"><span class="nb-arrow">→</span><span>AI integration curious</span></div>
+          <div class="nb-row"><span class="nb-arrow">→</span><span>open to internships</span></div>
+          <div class="nb-row"><span class="nb-arrow">→</span><span>film photo enthusiast</span></div>
+          <div class="nb-row"><span class="nb-arrow">→</span><span>based in Texas</span></div>
+
+          <!-- UNT cute badge -->
+          <div style="margin-top:12px;padding-left:22px;display:flex;align-items:center;gap:8px;">
+            <svg width="38" height="38" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg">
+              <!-- circular badge background -->
+              <circle cx="19" cy="19" r="18" fill="#00853E"/>
+              <circle cx="19" cy="19" r="18" fill="none" stroke="#fff" stroke-width="1.5" stroke-dasharray="3 2"/>
+              <!-- cute eagle head silhouette -->
+              <ellipse cx="19" cy="15" rx="7" ry="7.5" fill="#fff" opacity="0.18"/>
+              <!-- UNT text -->
+              <text x="19" y="18" text-anchor="middle" font-family="'DM Sans',sans-serif" font-weight="700" font-size="8.5" fill="#fff" letter-spacing="0.5">UNT</text>
+              <!-- "Mean Green" small text -->
+              <text x="19" y="26" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="4.5" fill="rgba(255,255,255,0.82)" letter-spacing="0.3">MEAN GREEN</text>
+              <!-- little star accents -->
+              <text x="8" y="12" font-size="5" fill="rgba(255,255,255,0.6)">★</text>
+              <text x="27" y="12" font-size="5" fill="rgba(255,255,255,0.6)">★</text>
+            </svg>
+            <span style="font-family:'Caveat',cursive;font-size:13px;color:var(--sage);font-weight:600;">go mean green!</span>
+          </div>
+
+          <!-- keyboard sticker -->
+          <div style="position:absolute;top:-18px;right:-14px;transform:rotate(10deg);filter:drop-shadow(1px 2px 3px rgba(0,0,0,0.15));">
+            <svg width="42" height="30" viewBox="0 0 42 30" xmlns="http://www.w3.org/2000/svg">
+              <!-- keyboard body -->
+              <rect x="1" y="1" width="40" height="28" rx="4" fill="#1A1423" stroke="#f5f2f7" stroke-width="0.8"/>
+              <!-- key rows -->
+              <!-- row 1 -->
+              <rect x="4" y="5" width="5" height="4" rx="1" fill="#f5f2f7" opacity="0.85"/>
+              <rect x="11" y="5" width="5" height="4" rx="1" fill="#f5f2f7" opacity="0.85"/>
+              <rect x="18" y="5" width="5" height="4" rx="1" fill="#f5f2f7" opacity="0.85"/>
+              <rect x="25" y="5" width="5" height="4" rx="1" fill="#f5f2f7" opacity="0.85"/>
+              <rect x="32" y="5" width="6" height="4" rx="1" fill="#f5f2f7" opacity="0.85"/>
+              <!-- row 2 -->
+              <rect x="4" y="11" width="6" height="4" rx="1" fill="#f5f2f7" opacity="0.85"/>
+              <rect x="12" y="11" width="5" height="4" rx="1" fill="#f5f2f7" opacity="0.85"/>
+              <rect x="19" y="11" width="5" height="4" rx="1" fill="#f5f2f7" opacity="0.85"/>
+              <rect x="26" y="11" width="5" height="4" rx="1" fill="#f5f2f7" opacity="0.85"/>
+              <rect x="33" y="11" width="5" height="4" rx="1" fill="#f5f2f7" opacity="0.85"/>
+              <!-- row 3 — spacebar -->
+              <rect x="4" y="17" width="5" height="4" rx="1" fill="#f5f2f7" opacity="0.85"/>
+              <rect x="11" y="17" width="5" height="4" rx="1" fill="#f5f2f7" opacity="0.85"/>
+              <rect x="18" y="17" width="5" height="4" rx="1" fill="#F08700" opacity="0.9"/>
+              <rect x="25" y="17" width="5" height="4" rx="1" fill="#f5f2f7" opacity="0.85"/>
+              <rect x="32" y="17" width="6" height="4" rx="1" fill="#f5f2f7" opacity="0.85"/>
+              <!-- spacebar -->
+              <rect x="9" y="23" width="24" height="4" rx="1.5" fill="#f5f2f7" opacity="0.85"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="sticky" style="position:absolute;bottom:-16px;right:-10px;width:108px;z-index:5;transform:rotate(2.5deg);">
+          hire me — I'm fun and I ship.
+        </div>
+      </div>
+    </section>
+
+    <!-- DIVIDER -->
+    <div class="zig" style="margin-top:18px;"><div class="zig-line"></div><div class="zig-label">projects</div><div class="zig-line"></div></div>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="projects-section">
+      <div class="sec-heading">things i've <span>built</span></div>
+      <p class="sec-sub">two projects so far — more in progress</p>
+      <div class="projects-grid">
+
+        <!-- MoodSync -->
+        <div class="proj-card pc-r">
+          <div class="proj-tape" style="width:48px;background:rgba(240,135,0,0.38);transform:rotate(-6deg);top:-5px;left:18px;"></div>
+          <div class="proj-tags">
+            <span class="ptag pt-r">AI</span>
+            <span class="ptag pt-r">music</span>
+            <span class="ptag pt-g">generative</span>
+          </div>
+          <div class="proj-title">MoodSync</div>
+          <p class="proj-desc">A generative playlist app that reads your current mood and curates music to match. AI-driven recommendations that feel personal — like a friend who actually knows your taste. Built with real-time music APIs and a clean, expressive interface.</p>
+          <div class="proj-links">
+            <a class="plink pl-r" href="https://moodsync-d.vercel.app/" target="_blank">live demo</a>
+            <a class="plink pl-ghost" href="#" target="_blank">github</a>
+          </div>
+        </div>
+
+        <!-- KODA -->
+        <div class="proj-card pc-b">
+          <div class="proj-tape" style="width:42px;background:rgba(173,145,163,0.4);transform:rotate(5deg);top:-5px;right:22px;"></div>
+          <div class="proj-tags">
+            <span class="ptag pt-b">AI companion</span>
+            <span class="ptag pt-g">mobile</span>
+            <span class="ptag pt-b">baby tech</span>
+          </div>
+          <div class="proj-title">KODA</div>
+          <p class="proj-desc">An enchanted-forest baby tracker where a little bear guides parents through feedings, sleep logs, and diaper changes — with AI that interprets patterns and explains what baby's behavior actually means. Designed and prototyped end-to-end.</p>
+          <div class="proj-links">
+            <a class="plink pl-b" href="#" target="_blank">prototype</a>
+            <a class="plink pl-ghost" href="#">case study</a>
+          </div>
+        </div>
+
+        <!-- Coming soon -->
+        <div class="coming-card">
+          <div class="coming-dot"></div>
+          <span class="coming-text">next project in progress — check back soon</span>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- BOTTOM POLAROID ROW -->
+    <div class="bottom-pols" id="bottomPols"></div>
+
+    <!-- DIVIDER -->
+    <div class="zig" style="background:var(--ink);padding-top:5px;padding-bottom:5px;">
+      <div class="zig-line" style="background:repeating-linear-gradient(90deg,#e8a06a 0,#e8a06a 5px,transparent 5px,transparent 11px);opacity:0.35;"></div>
+      <div class="zig-label" style="color:#e8a06a;">let's connect</div>
+      <div class="zig-line" style="background:repeating-linear-gradient(90deg,#e8a06a 0,#e8a06a 5px,transparent 5px,transparent 11px);opacity:0.35;"></div>
+    </div>
+
+    <!-- CONTACT -->
+    <section id="contact" class="contact-section">
+      <div>
+        <div class="contact-heading">let's make<br/><span>something good.</span></div>
+        <p class="contact-body">Whether it's an internship, a collaboration, or just talking through a project idea — I'm always open to it. My inbox is friendly.</p>
         <div class="contact-links">
-          <a href="https://github.com/jacintat20" target="_blank" class="contact-link reveal">
-            <div class="contact-icon">gh</div><span>GitHub — where my actual work lives</span>
+          <a href="https://github.com" target="_blank" class="clink">
+            <div class="clink-box">gh</div>
+            <span>GitHub</span>
           </a>
-          <a href="https://www.linkedin.com/in/jacinta-t/" target="_blank" class="contact-link reveal">
-            <div class="contact-icon">in</div><span>LinkedIn — my professional face</span>
+          <a href="https://www.linkedin.com/in/jacinta-t/" target="_blank" class="clink">
+            <div class="clink-box" style="font-size:12px;font-weight:600;">in</div>
+            <span>LinkedIn</span>
+          </a>
+          <a href="resume.pdf" target="_blank" class="clink">
+            <div class="clink-box">cv</div>
+            <span>Resume</span>
           </a>
         </div>
       </div>
-      <div class="contact-card reveal">
-        <div class="available-row"><div class="av-dot"></div>Open to opportunities</div>
-        <div class="contact-card-title">Let's talk →</div>
-        <p class="contact-card-sub">Actively hunting internship roles and the kind of freelance projects that keep me up at night for good reasons. Please feel free to reach out.</p>
-        <a href="mailto:jacintathomas20@gmail.com" class="email-btn">✉ Send a message</a>
+      <div class="contact-card">
+        <div class="avail-row"><div class="avail-dot"></div>open to work</div>
+        <div class="contact-card-title">say hello</div>
+        <p class="contact-card-sub">Internships, freelance projects, or just connecting — I'm here for all of it.</p>
+        <a href="mailto:hello@jacinta.dev" class="email-btn">send a message</a>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<!-- FOOTER -->
-<footer>
-  <div class="footer-l">© 2026 — Designed &amp; built with 💕</div>
-  <div class="footer-r"> · powered by curiosity ·</div>
-</footer>
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-l">designed + built by <span style="color:#e8a06a;">jacinta t.</span>, 2026</div>
+      <div class="footer-r">made with Caveat and a lot of <span>patience</span></div>
+    </footer>
+
+  </div><!-- /main-col -->
+
+  <!-- RIGHT GUTTER -->
+  <div class="gutter" id="gutterR"></div>
+
+</div><!-- /page-shell -->
+
+<!-- Camera cursor SVG -->
+<svg id="cam-cursor" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+  <!-- body -->
+  <rect x="2" y="8" width="24" height="16" rx="2.5" fill="#1A1423" stroke="#f5f2f7" stroke-width="0.8"/>
+  <!-- viewfinder bump -->
+  <rect x="10" y="5" width="8" height="5" rx="1.5" fill="#1A1423" stroke="#f5f2f7" stroke-width="0.8"/>
+  <!-- lens outer ring -->
+  <circle cx="14" cy="16" r="5.5" fill="#2a2520" stroke="#c8b89a" stroke-width="1"/>
+  <!-- lens inner -->
+  <circle cx="14" cy="16" r="3.4" fill="#0d0b09"/>
+  <!-- lens gleam -->
+  <circle cx="12.4" cy="14.4" r="1.1" fill="rgba(255,255,255,0.45)"/>
+  <!-- shutter button -->
+  <circle cx="22" cy="10" r="1.6" fill="#F08700"/>
+  <!-- flash -->
+  <rect x="3.5" y="10" width="3" height="2" rx="0.5" fill="#fcd34d" opacity="0.7"/>
+</svg>
 
 <script>
-/* ── cursor ── */
-const cur = document.getElementById('cur');
-const ring = document.getElementById('cur-ring');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{ mx=e.clientX; my=e.clientY; cur.style.left=mx+'px'; cur.style.top=my+'px'; });
-(function ra(){ rx+=(mx-rx)*.11; ry+=(my-ry)*.11; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(ra); })();
 
-/* ── bg stars ── */
-const bgC = document.getElementById('bg-canvas');
-const bgX = bgC.getContext('2d');
-let starsArr=[];
-function resizeBg(){ bgC.width=window.innerWidth; bgC.height=document.body.scrollHeight; }
-function makeStars(){ starsArr=[]; for(let i=0;i<160;i++) starsArr.push({x:Math.random()*bgC.width,y:Math.random()*bgC.height,r:Math.random()*.85+.18,phase:Math.random()*Math.PI*2,spd:Math.random()*.003+.001}); }
-function drawBg(t){ bgX.clearRect(0,0,bgC.width,bgC.height); for(const s of starsArr){ const a=.08+.35*(0.5+0.5*Math.sin(t*s.spd*60+s.phase)); bgX.beginPath(); bgX.arc(s.x,s.y,s.r,0,Math.PI*2); bgX.fillStyle=`rgba(168,85,247,${a})`; bgX.fill(); } }
-let bt=0; function bgLoop(ts){ bt=ts/1000; drawBg(bt); requestAnimationFrame(bgLoop); }
-resizeBg(); makeStars(); requestAnimationFrame(bgLoop);
-window.addEventListener('resize',()=>{ resizeBg(); makeStars(); });
+/* ══════════════════════════════════════════
+   GUTTER POLAROID DATA
+══════════════════════════════════════════ */
+const gutterScenes = [
+  /* SVG content, label, rotation, tape-color, tape-angle */
+  [/*forest*/ `<svg viewBox="0 0 54 42" width="54" height="42"><rect width="54" height="42" fill="#5a8f60"/><rect x="0" y="28" width="54" height="14" fill="#2d5c28"/><ellipse cx="27" cy="20" rx="16" ry="18" fill="#3d7a35"/><rect x="24" y="22" width="5" height="18" fill="#4a3020" rx="1"/><circle cx="14" cy="30" r="2" fill="#ffd700" opacity="0.5"/></svg>`, 'sunlit path', -9, 'rgba(240,135,0,0.44)', -5],
+  [/*sky*/ `<svg viewBox="0 0 54 42" width="54" height="42"><rect width="54" height="26" fill="#87CEEB"/><rect y="26" width="54" height="16" fill="#4a7c40"/><ellipse cx="16" cy="12" rx="14" ry="6" fill="rgba(255,255,255,0.8)"/><ellipse cx="40" cy="8" rx="10" ry="5" fill="rgba(255,255,255,0.7)"/><circle cx="44" cy="5" r="5" fill="#FFD700" opacity="0.85"/></svg>`, 'open road', 6, 'rgba(173,145,163,0.44)', 4],
+  [/*water*/ `<svg viewBox="0 0 54 42" width="54" height="42"><rect width="54" height="42" fill="#4a90b8"/><rect y="28" width="54" height="14" fill="#2d6a8a"/><ellipse cx="27" cy="28" rx="30" ry="5" fill="rgba(255,255,255,0.2)"/><path d="M0 20 Q14 16 27 20 Q40 24 54 20" stroke="rgba(255,255,255,0.3)" stroke-width="1" fill="none"/></svg>`, 'lake day', -5, 'rgba(173,145,163,0.5)', 48],
+  [/*cafe*/ `<svg viewBox="0 0 54 42" width="54" height="42"><rect width="54" height="42" fill="#e8d5b7"/><rect x="10" y="14" width="34" height="22" rx="2" fill="#c4a882"/><rect x="16" y="22" width="12" height="12" rx="1" fill="#8b6914"/><ellipse cx="27" cy="10" rx="10" ry="4" fill="#d4956a" opacity="0.7"/><rect x="24" y="6" width="6" height="8" fill="#a0724a" rx="1"/></svg>`, 'coffee run', 8, 'rgba(254,240,138,0.66)', -3],
+  [/*night*/ `<svg viewBox="0 0 54 42" width="54" height="42"><rect width="54" height="42" fill="#0d1b2e"/><circle cx="40" cy="9" r="5" fill="rgba(255,248,200,0.6)"/><circle cx="10" cy="6" r="1.5" fill="rgba(255,255,255,0.8)"/><circle cx="30" cy="4" r="1" fill="rgba(255,255,255,0.7)"/><circle cx="20" cy="14" r="1" fill="rgba(255,255,255,0.6)"/><circle cx="45" cy="18" r="1.2" fill="rgba(255,255,255,0.7)"/><rect x="0" y="28" width="54" height="14" fill="#152208"/><ellipse cx="27" cy="28" rx="28" ry="6" fill="#1a2e10"/></svg>`, 'stargazing', -7, 'rgba(240,135,0,0.42)', -5],
+  [/*flowers*/ `<svg viewBox="0 0 54 42" width="54" height="42"><rect width="54" height="42" fill="#e8f4d0"/><circle cx="18" cy="22" r="6" fill="#ff9eb5"/><circle cx="18" cy="22" r="3" fill="#ffd700"/><circle cx="36" cy="18" r="5" fill="#ff7aa2"/><circle cx="36" cy="18" r="2.5" fill="#ffd700"/><circle cx="28" cy="30" r="4" fill="#ffb3c6"/><circle cx="28" cy="30" r="2" fill="#ffd700"/><rect x="17" y="26" width="2" height="12" fill="#5a7a52" rx="1"/><rect x="35" y="22" width="2" height="12" fill="#5a7a52" rx="1"/></svg>`, 'field trip', 5, 'rgba(254,240,138,0.6)', 6],
+  [/*friends 2*/ `<svg viewBox="0 0 54 42" width="54" height="42"><rect width="54" height="42" fill="#f0d5b0"/><ellipse cx="18" cy="26" rx="10" ry="12" fill="#e8c090"/><circle cx="18" cy="16" r="8" fill="#d4a574"/><ellipse cx="38" cy="24" rx="9" ry="11" fill="#c49060"/><circle cx="38" cy="14" r="7" fill="#b07848"/></svg>`, 'them', -11, 'rgba(173,145,163,0.48)', -5],
+  [/*city*/ `<svg viewBox="0 0 54 42" width="54" height="42"><rect width="54" height="42" fill="#9ab0c8"/><rect x="4" y="18" width="10" height="24" fill="#4a5a70"/><rect x="16" y="10" width="12" height="32" fill="#3a4a60"/><rect x="30" y="20" width="8" height="22" fill="#4a5a70"/><rect x="40" y="14" width="10" height="28" fill="#3a4a60"/><rect x="0" y="38" width="54" height="4" fill="#2a3240"/><circle cx="8" cy="16" r="2" fill="#ffd700" opacity="0.6"/><circle cx="22" cy="8" r="2" fill="#ffd700" opacity="0.7"/></svg>`, 'city trip', 7, 'rgba(173,145,163,0.44)', 5],
+];
 
-/* ── typewriter ── */
-const roles=['things worth clicking','ideas worth shipping','AI-powered apps','interfaces that feel alive'];
-let ri=0,ci=0,del=false;
-const rEl=document.getElementById('roleEl');
-function type(){ const w=roles[ri]; if(!del){ rEl.textContent=w.slice(0,++ci); if(ci===w.length){del=true;setTimeout(type,2000);return;} } else{ rEl.textContent=w.slice(0,--ci); if(ci===0){del=false;ri=(ri+1)%roles.length;setTimeout(type,300);return;} } setTimeout(type,del?40:85); }
-type();
+/* Bottom polaroid extra set */
+const bottomScenes = [
+  [`<svg viewBox="0 0 80 62" width="80" height="62"><rect width="80" height="62" fill="#b8d4e8"/><rect y="40" width="80" height="22" fill="#4a7c40"/><circle cx="60" cy="16" r="10" fill="#FFD700" opacity="0.8"/><ellipse cx="20" cy="22" rx="18" ry="8" fill="rgba(255,255,255,0.75)"/></svg>`, 'summer afternoon', -4],
+  [`<svg viewBox="0 0 80 62" width="80" height="62"><rect width="80" height="62" fill="#f2e4c8"/><ellipse cx="28" cy="34" rx="16" ry="20" fill="#e8c090"/><circle cx="28" cy="16" r="12" fill="#d4a574"/><ellipse cx="60" cy="32" rx="14" ry="18" fill="#c49060"/><circle cx="60" cy="15" r="11" fill="#b07848"/></svg>`, 'crew', 5],
+  [`<svg viewBox="0 0 80 62" width="80" height="62"><rect width="80" height="62" fill="#0d1b2e"/><circle cx="56" cy="12" r="7" fill="rgba(255,248,200,0.55)"/><circle cx="14" cy="8" r="2" fill="white" opacity="0.8"/><circle cx="40" cy="5" r="1.5" fill="white" opacity="0.7"/><circle cx="66" cy="22" r="1.5" fill="white" opacity="0.65"/><circle cx="25" cy="18" r="1" fill="white" opacity="0.6"/><rect y="42" width="80" height="20" fill="#0a1a06"/><ellipse cx="40" cy="42" rx="42" ry="8" fill="#112208"/></svg>`, 'late night', -6],
+  [`<svg viewBox="0 0 80 62" width="80" height="62"><rect width="80" height="62" fill="#8fbc8f"/><ellipse cx="40" cy="50" rx="42" ry="18" fill="#3d7a35"/><rect x="34" y="8" width="6" height="46" fill="#4a3020" rx="2"/><ellipse cx="38" cy="14" rx="20" ry="24" fill="#3d7a35"/><ellipse cx="44" cy="8" rx="14" ry="18" fill="#4a8f40"/></svg>`, 'national park', 3],
+  [`<svg viewBox="0 0 80 62" width="80" height="62"><rect width="80" height="62" fill="#1a1a2e"/><rect x="10" y="6" width="60" height="50" rx="3" fill="#2a2a4e"/><circle cx="40" cy="30" r="16" fill="#3a3a6e"/><rect x="14" y="20" width="52" height="1.5" fill="rgba(255,200,100,0.25)"/><rect x="14" y="42" width="52" height="1.5" fill="rgba(255,200,100,0.25)"/><circle cx="40" cy="30" r="7" fill="#ff6b9d" opacity="0.6"/></svg>`, 'photo booth', 7],
+  [`<svg viewBox="0 0 80 62" width="80" height="62"><rect width="80" height="62" fill="#e8d4b0"/><rect x="8" y="12" width="28" height="40" rx="2" fill="#c4a882"/><rect x="8" y="12" width="28" height="16" rx="1" fill="#a08060"/><rect x="44" y="18" width="28" height="34" rx="2" fill="#d4b892"/><path d="M22 52 L22 40 L30 40 L30 52" fill="#8b6914"/><ellipse cx="58" cy="14" rx="10" ry="4" fill="#b08860" opacity="0.7"/></svg>`, 'home', -3],
+];
 
-/* ── scroll reveal ── */
-const revEls=document.querySelectorAll('.reveal');
-const io=new IntersectionObserver(entries=>{ entries.forEach((e,i)=>{ if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*65);io.unobserve(e.target);} }); },{threshold:.1});
-revEls.forEach(el=>io.observe(el));
-document.querySelectorAll('.skills-grid,.about-stats,.projects-bento').forEach(g=>{ g.querySelectorAll('.reveal').forEach((c,i)=>{ c.style.transitionDelay=(i*.08)+'s'; }); });
+/* ══════════════════════════════════════════
+   BUILD GUTTER POLAROIDS
+══════════════════════════════════════════ */
+function buildGutter(id, side) {
+  const el = document.getElementById(id);
+  if(!el) return;
 
-/* ── orbit animation fix: distribute dots around the ring using JS ── */
-(function(){
-  const dots = document.querySelectorAll('.ms-dot');
-  const orbitRadius = 52; // px, half of .ms-orbit width (120/2 - center)
-  dots.forEach((dot, i) => {
-    const startAngle = (i / dots.length) * 360;
-    const duration = 6 + i * 0.4;
-    dot.style.setProperty('--os', startAngle + 'deg');
-    dot.style.setProperty('--od', duration + 's');
-    dot.style.marginTop = '-4px';
-    dot.style.marginLeft = '-4px';
+  gutterScenes.forEach((scene, i) => {
+    const [svgStr, label, rot, tapeColor, tapeAngle] = scene;
+
+    const wrap = document.createElement('div');
+    wrap.className = 'gpol';
+    const leftOff  = side === 'L' ? (Math.random() > 0.5 ? 6 : 14) : (Math.random() > 0.5 ? 5 : 12);
+    const topPos   = 100 + i * 148 + (Math.random()*30 - 15);
+
+    wrap.style.cssText = `left:${side==='L'? leftOff : leftOff}px; top:${topPos}px; transform: rotate(${rot}deg);`;
+
+    const imgDiv = document.createElement('div');
+    imgDiv.className = 'gpol-img';
+    imgDiv.style.height = '52px';
+    imgDiv.innerHTML = svgStr;
+
+    const lbl = document.createElement('span');
+    lbl.className = 'gpol-label';
+    lbl.textContent = label;
+
+    // tape
+    const tape = document.createElement('div');
+    tape.className = 'gtape';
+    tape.style.cssText = `width:28px; background:${tapeColor}; transform:rotate(${tapeAngle}deg); top:-4px; left:${side==='L'? 16 : 10}px; opacity:0.72;`;
+
+    wrap.appendChild(imgDiv);
+    wrap.appendChild(lbl);
+    wrap.appendChild(tape);
+    el.appendChild(wrap);
   });
+}
+
+buildGutter('gutterL', 'L');
+buildGutter('gutterR', 'R');
+
+/* ══════════════════════════════════════════
+   BUILD BOTTOM POLAROIDS
+══════════════════════════════════════════ */
+(function(){
+  const row = document.getElementById('bottomPols');
+  if(!row) return;
+  const rots = [-5, 3, -2, 7, -4, 2];
+  const tapes = [
+    'rgba(240,135,0,0.42)','rgba(173,145,163,0.42)','rgba(254,240,138,0.62)',
+    'rgba(173,145,163,0.48)','rgba(240,135,0,0.38)','rgba(173,145,163,0.44)'
+  ];
+  bottomScenes.forEach(([svg, label, rot], i) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'bpol';
+    wrap.style.transform = `rotate(${rot || rots[i%rots.length]}deg)`;
+
+    const img = document.createElement('div');
+    img.className = 'bpol-img';
+    img.innerHTML = svg;
+
+    const tape = document.createElement('div');
+    tape.style.cssText = `position:absolute; width:32px; height:11px; background:${tapes[i%tapes.length]}; border-radius:1px; transform:rotate(${[-6,4,-3,6,-5,3][i%6]}deg); top:-4px; left:22px; z-index:5; opacity:0.72; pointer-events:none;`;
+
+    const lbl = document.createElement('div');
+    lbl.className = 'bpol-label';
+    lbl.textContent = label;
+
+    wrap.appendChild(tape);
+    wrap.appendChild(img);
+    wrap.appendChild(lbl);
+    row.appendChild(wrap);
+  });
+})();
+
+/* ══════════════════════════════════════════
+   CAMERA CURSOR
+══════════════════════════════════════════ */
+(function(){
+  const cam = document.getElementById('cam-cursor');
+  if(!cam) return;
+
+  let cx = window.innerWidth / 2;
+  let cy = window.innerHeight / 2;
+
+  /* Move camera instantly to mouse position */
+  document.addEventListener('mousemove', function(e) {
+    cx = e.clientX;
+    cy = e.clientY;
+    cam.style.left = cx + 'px';
+    cam.style.top  = cy + 'px';
+  });
+
+  /* Shutter blink on click */
+  document.addEventListener('mousedown', function() {
+    document.body.classList.add('cam-click');
+    const shutter = document.getElementById('cam-shutter');
+    if(shutter) { shutter.style.opacity = '0.7'; }
+    setTimeout(function() {
+      document.body.classList.remove('cam-click');
+      if(shutter) { shutter.style.opacity = '0'; }
+    }, 120);
+  });
+
+  /* Show/hide when cursor enters/leaves window */
+  document.addEventListener('mouseleave', function() { cam.style.opacity = '0'; });
+  document.addEventListener('mouseenter', function() { cam.style.opacity = '1'; });
 })();
 </script>
 </body>
