@@ -44,10 +44,10 @@
       <a href="#" class="nav-logo">jacinta<span>.dev</span></a>
       <ul class="nav-links">
         <li><a href="#about">about</a></li>
-        <li><a href="#projects">work</a></li>
+        <li><a href="#projects">projects</a></li>
         <li><a href="#contact">contact</a></li>
       </ul>
-      <a href="#contact" class="nav-cta">say hello</a>
+      <a href="#contact" class="nav-cta">say hi</a>
     </nav>
 
     <!-- HERO -->
@@ -60,95 +60,74 @@
       <div class="hero-text">
         <div class="hero-eyebrow">cs student + creator</div>
         <div class="hero-name">hi, i'm<br/><em>jacinta.</em></div>
-        <div class="hero-tagline">i design. i build.<br/>i make things worth using.</div>
-        <p class="hero-desc">CS undergrad chasing the intersection of design and development — from AI baby trackers to mood-driven playlists. If it lives on a screen, I want to make it feel intentional.</p>
+        <div class="hero-tagline">i design. i build.</div>
         <div class="hero-btns">
           <a href="#projects" class="btn-solid">see my work</a>
           <a href="#contact" class="btn-outline">get in touch</a>
         </div>
       </div>
 
-      <!-- ════════════════════════════════════════════
-           HERO PHOTO CLUSTER — HOW TO SWAP PHOTOS
-           ════════════════════════════════════════════
-           There are 5 photos in 3 different formats:
-
-           POLAROID (.hpol — white border + caption below)
-             Replace the <svg> inside .hpol-img with:
-             <img src="your-photo.jpg" style="width:100%;height:100%;object-fit:cover;display:block;"/>
-             Then update the <span class="hpol-label"> text caption.
-
-           PHOTO BOOTH STRIP (.hpol.booth — dark surround, 3-frame strip)
-             Replace each <svg> inside .booth-frame with an <img> the same way.
-             Keep the strip wrapper intact so the dark border stays.
-
-           PRINTED PHOTO (.hpol.print — borderless, no caption)
-             Replace the <svg> with an <img> tag directly.
-             Recommended size: landscape 4x6 ratio (width ~200px, height ~130px).
-
-           TIP: All photos use object-fit:cover so any aspect ratio will fill cleanly.
-           ════════════════════════════════════════════ -->
       <div class="hero-cluster">
 
         <!-- PHOTO 1: Polaroid — nature / golden hour
-             Swap: replace the <svg> below with <img src="your-nature-photo.jpg" style="width:100%;height:100%;object-fit:cover;display:block;"/> -->
+             Swap: update the image src below to your nature photo. -->
         <div class="hpol" style="width:148px;transform:rotate(-8deg);top:18px;left:0;z-index:1;">
           <div class="hpol-img" style="height:118px;">
-            <svg viewBox="0 0 148 118" width="148" height="118"><rect width="148" height="118" fill="#7aad6e"/><ellipse cx="74" cy="108" rx="74" ry="20" fill="#2d5c28"/><rect x="68" y="18" width="10" height="76" fill="#4a3020" rx="2"/><ellipse cx="72" cy="28" rx="30" ry="34" fill="#3d7a35"/><ellipse cx="80" cy="18" rx="22" ry="26" fill="#4a8f40"/><circle cx="38" cy="76" r="4" fill="#ffd700" opacity="0.55"/><circle cx="108" cy="68" r="3" fill="#ffd700" opacity="0.45"/><rect width="148" height="118" fill="rgba(0,0,0,0.03)"/></svg>
+            <img src="garden.jpg" alt="Waterfall surrounded by nature"/>
           </div>
-          <span class="hpol-label">golden hour</span>
+          <span class="hpol-label">nature walks</span>
         </div>
         <div class="htape" style="width:44px;background:rgba(240,135,0,0.46);transform:rotate(-5deg);top:12px;left:44px;z-index:12;"></div>
 
         <!-- PHOTO 2: Polaroid — friends
-             Swap: replace the <svg> below with <img src="your-friends-photo.jpg" style="width:100%;height:100%;object-fit:cover;display:block;"/> -->
+             Swap: update the image src below to your friends photo. -->
         <div class="hpol" style="width:162px;transform:rotate(5deg);top:8px;left:160px;z-index:3;">
           <div class="hpol-img" style="height:122px;">
-            <svg viewBox="0 0 162 122" width="162" height="122"><rect width="162" height="122" fill="#f7c5a0"/><ellipse cx="52" cy="74" rx="24" ry="30" fill="#f5cba7"/><circle cx="52" cy="46" r="18" fill="#e8b090"/><ellipse cx="112" cy="70" rx="22" ry="28" fill="#d4a574"/><circle cx="112" cy="44" r="16" fill="#c49060"/><rect y="98" width="162" height="24" fill="#e8956a" opacity="0.36"/></svg>
+            <img src="friends.jpg" alt="A moment with friends"/>
           </div>
-          <span class="hpol-label">summer '24</span>
+          <span class="hpol-label">my people</span>
         </div>
         <div class="htape" style="width:38px;background:rgba(173,145,163,0.52);transform:rotate(52deg);top:2px;left:218px;z-index:12;"></div>
 
         <!-- PHOTO 3: Photo booth strip — dark format with 3 frames
-             Swap: replace each <svg class="booth-frame"> with <img src="your-photo.jpg" style="width:100%;height:100%;object-fit:cover;display:block;"/>
+             Swap: update the three image src values below to your photos.
              Keep the dark background (.hpol.booth) — it's part of the photo booth look. -->
         <div class="hpol booth" style="width:82px;transform:rotate(5deg);top:30px;left:330px;z-index:5;padding:8px 8px 12px;">
           <div style="display:flex;flex-direction:column;gap:4px;">
             <div class="booth-frame" style="height:62px;overflow:hidden;background:#2a1a3a;">
-              <svg viewBox="0 0 66 62" width="66" height="62" class="booth-frame"><rect width="66" height="62" fill="#2a1a3a"/><circle cx="33" cy="31" r="14" fill="#3d2a5a"/><circle cx="33" cy="31" r="7" fill="#e879b0" opacity="0.7"/><circle cx="26" cy="26" r="5" fill="#f5c4d0" opacity="0.5"/></svg>
+              <img src="city.jpg" alt="Two friends smiling together"/>
             </div>
             <div class="booth-frame" style="height:62px;overflow:hidden;background:#1a1a2e;">
-              <svg viewBox="0 0 66 62" width="66" height="62" class="booth-frame"><rect width="66" height="62" fill="#1a1a2e"/><ellipse cx="22" cy="38" rx="12" ry="16" fill="#c49060" opacity="0.8"/><circle cx="22" cy="24" r="10" fill="#d4a574" opacity="0.9"/><ellipse cx="46" cy="36" rx="11" ry="15" fill="#b07848" opacity="0.8"/><circle cx="46" cy="22" r="9" fill="#c49060" opacity="0.9"/></svg>
+              <img src="boat.JPG" alt="Friends together"/>
             </div>
             <div class="booth-frame" style="height:62px;overflow:hidden;background:#1a102e;">
-              <svg viewBox="0 0 66 62" width="66" height="62" class="booth-frame"><rect width="66" height="62" fill="#1a102e"/><circle cx="33" cy="31" r="18" fill="#2a2050" opacity="0.7"/><circle cx="33" cy="31" r="9" fill="#ff6b9d" opacity="0.55"/><circle cx="24" cy="24" r="6" fill="#f5e0ff" opacity="0.35"/></svg>
+              <img src="waterfall.jpg" alt="Concert memories"/>
             </div>
           </div>
-          <div style="font-family:'Caveat',cursive;font-size:10px;color:rgba(255,255,255,0.45);text-align:center;margin-top:5px;">photo booth</div>
+          <div style="font-family:'Caveat',cursive;font-size:10px;color:rgba(255,255,255,0.45);text-align:center;margin-top:5px;">travel</div>
         </div>
         <div class="htape" style="width:36px;background:rgba(254,240,138,0.65);transform:rotate(-2deg);top:24px;left:348px;z-index:12;"></div>
 
         <!-- PHOTO 4: Printed photo (borderless landscape) — road / sky
-             Swap: replace the <svg> below with <img src="your-landscape-photo.jpg" style="width:100%;height:100%;object-fit:cover;display:block;"/>
+             Swap: update the image src below to your landscape photo.
              This is a borderless print — no white frame, no caption. -->
         <div class="hpol print" style="width:170px;transform:rotate(-6deg);top:200px;left:4px;z-index:2;">
           <div style="height:114px;overflow:hidden;">
-            <svg viewBox="0 0 170 114" width="170" height="114"><rect width="170" height="114" fill="#b8d4ec"/><rect y="72" width="170" height="42" fill="#4a7c40"/><ellipse cx="46" cy="36" rx="36" ry="16" fill="rgba(255,255,255,0.78)"/><ellipse cx="124" cy="28" rx="26" ry="12" fill="rgba(255,255,255,0.68)"/><circle cx="140" cy="18" r="14" fill="#FFD700" opacity="0.82"/><rect width="170" height="114" fill="rgba(0,0,0,0.025)"/></svg>
+            <img src="sunset.jpg" alt="View from a plane"/>
           </div>
         </div>
 
         <!-- PHOTO 5: Polaroid — night / stargazing
-             Swap: replace the <svg> below with <img src="your-night-photo.jpg" style="width:100%;height:100%;object-fit:cover;display:block;"/> -->
+             Swap: update the image src below to your city or night photo. -->
         <div class="hpol" style="width:138px;transform:rotate(9deg);top:248px;left:192px;z-index:4;">
           <div class="hpol-img" style="height:106px;">
-            <svg viewBox="0 0 138 106" width="138" height="106"><rect width="138" height="106" fill="#0d1b2e"/><circle cx="104" cy="20" r="12" fill="rgba(255,248,200,0.5)"/><circle cx="18" cy="14" r="3" fill="white" opacity="0.8"/><circle cx="70" cy="10" r="2" fill="white" opacity="0.7"/><circle cx="50" cy="28" r="2" fill="white" opacity="0.65"/><circle cx="120" cy="38" r="2.5" fill="white" opacity="0.7"/><circle cx="30" cy="40" r="1.5" fill="white" opacity="0.55"/><rect y="76" width="138" height="30" fill="#0a1a06"/><ellipse cx="69" cy="76" rx="72" ry="14" fill="#112208"/></svg>
+            <img src="jazzy1.jpg" alt="City scenery"/>
           </div>
-          <span class="hpol-label">stargazing</span>
+          <span class="hpol-label">sister memories</span>
         </div>
         <div class="htape" style="width:40px;background:rgba(240,135,0,0.44);transform:rotate(6deg);top:242px;left:222px;z-index:12;"></div>
 
-        <div class="hand-note" style="position:absolute;bottom:6px;right:8px;transform:rotate(-5deg);font-size:13px;">summer memories</div>
+        <div class="hand-note" style="position:absolute;bottom:6px;right:8px;transform:rotate(-5deg);font-size:13px;">my life through pics</div>
       </div>
     </section>
 
@@ -158,7 +137,7 @@
     <!-- ABOUT -->
     <section id="about" class="about-section">
       <div>
-        <div class="about-heading">the person<br/><span>behind the screen</span></div>
+        <div class="about-heading">the person <span>behind the screen</span></div>
         <p class="about-body">I'm a Computer Science student with a deep love for design, people, and building things that actually matter. My walls are covered in film photos and polaroids — that same care for capturing real moments is how I approach every project I build.</p>
         <p class="about-body">I care about web experiences that feel warm, not clinical. I write code the same way I hang a photo — deliberately, with intention, making sure it fits just right.</p>
         <div class="skills-row">
@@ -172,13 +151,13 @@
           <span class="skill-pill sp-g">AI / APIs</span>
         </div>
       </div>
-      <div style="position:relative;margin-left:-16px;">
+      <div class="about-cards">
         <div class="nb-card">
           <div class="nb-title">at a glance</div>
           <div class="nb-row"><span class="nb-arrow">→</span><span>CS undergrad, class of 2026</span></div>
           <div class="nb-row"><span class="nb-arrow">→</span><span>web design + dev focus</span></div>
           <div class="nb-row"><span class="nb-arrow">→</span><span>AI integration curious</span></div>
-          <div class="nb-row"><span class="nb-arrow">→</span><span>open to internships</span></div>
+          <div class="nb-row"><span class="nb-arrow">→</span><span>open to internships + jobs</span></div>
           <div class="nb-row"><span class="nb-arrow">→</span><span>film photo enthusiast</span></div>
           <div class="nb-row"><span class="nb-arrow">→</span><span>based in Texas</span></div>
 
@@ -235,6 +214,13 @@
           hire me — I'm fun and I ship.
         </div>
       </div>
+      <figure class="hpol about-portrait">
+        <div class="hpol-img">
+          <img id="about-photo" alt="Portrait of Jacinta" loading="lazy"/>
+          <span class="portrait-placeholder" aria-hidden="true">J.</span>
+        </div>
+        <figcaption class="hpol-label">IT'S MEEE!!</figcaption>
+      </figure>
     </section>
 
     <!-- DIVIDER -->
@@ -301,7 +287,7 @@
     <section id="contact" class="contact-section">
       <div>
         <div class="contact-heading">let's make<br/><span>something good.</span></div>
-        <p class="contact-body">Whether it's an internship, a collaboration, or just talking through a project idea — I'm always open to it. My inbox is friendly.</p>
+        <p class="contact-body">Whether it's an internship, a collaboration, or just talking through a project idea — I'm always open to it.</p>
         <div class="contact-links">
           <a href="https://github.com" target="_blank" class="clink">
             <div class="clink-box">gh</div>
@@ -328,7 +314,7 @@
     <!-- FOOTER -->
     <footer>
       <div class="footer-l">designed + built by <span style="color:#e8a06a;">jacinta t.</span>, 2026</div>
-      <div class="footer-r">made with Caveat and a lot of <span>patience</span></div>
+      <div class="footer-r">made with a lot of <span> love</span> + <span>patience <3</span></div>
     </footer>
 
   </div><!-- /main-col -->
@@ -362,25 +348,24 @@
    GUTTER POLAROID DATA
 ══════════════════════════════════════════ */
 const gutterScenes = [
-  /* SVG content, label, rotation, tape-color, tape-angle */
-  [/*forest*/ `<svg viewBox="0 0 54 42" width="54" height="42"><rect width="54" height="42" fill="#5a8f60"/><rect x="0" y="28" width="54" height="14" fill="#2d5c28"/><ellipse cx="27" cy="20" rx="16" ry="18" fill="#3d7a35"/><rect x="24" y="22" width="5" height="18" fill="#4a3020" rx="1"/><circle cx="14" cy="30" r="2" fill="#ffd700" opacity="0.5"/></svg>`, 'sunlit path', -9, 'rgba(240,135,0,0.44)', -5],
-  [/*sky*/ `<svg viewBox="0 0 54 42" width="54" height="42"><rect width="54" height="26" fill="#87CEEB"/><rect y="26" width="54" height="16" fill="#4a7c40"/><ellipse cx="16" cy="12" rx="14" ry="6" fill="rgba(255,255,255,0.8)"/><ellipse cx="40" cy="8" rx="10" ry="5" fill="rgba(255,255,255,0.7)"/><circle cx="44" cy="5" r="5" fill="#FFD700" opacity="0.85"/></svg>`, 'open road', 6, 'rgba(173,145,163,0.44)', 4],
-  [/*water*/ `<svg viewBox="0 0 54 42" width="54" height="42"><rect width="54" height="42" fill="#4a90b8"/><rect y="28" width="54" height="14" fill="#2d6a8a"/><ellipse cx="27" cy="28" rx="30" ry="5" fill="rgba(255,255,255,0.2)"/><path d="M0 20 Q14 16 27 20 Q40 24 54 20" stroke="rgba(255,255,255,0.3)" stroke-width="1" fill="none"/></svg>`, 'lake day', -5, 'rgba(173,145,163,0.5)', 48],
-  [/*cafe*/ `<svg viewBox="0 0 54 42" width="54" height="42"><rect width="54" height="42" fill="#e8d5b7"/><rect x="10" y="14" width="34" height="22" rx="2" fill="#c4a882"/><rect x="16" y="22" width="12" height="12" rx="1" fill="#8b6914"/><ellipse cx="27" cy="10" rx="10" ry="4" fill="#d4956a" opacity="0.7"/><rect x="24" y="6" width="6" height="8" fill="#a0724a" rx="1"/></svg>`, 'coffee run', 8, 'rgba(254,240,138,0.66)', -3],
-  [/*night*/ `<svg viewBox="0 0 54 42" width="54" height="42"><rect width="54" height="42" fill="#0d1b2e"/><circle cx="40" cy="9" r="5" fill="rgba(255,248,200,0.6)"/><circle cx="10" cy="6" r="1.5" fill="rgba(255,255,255,0.8)"/><circle cx="30" cy="4" r="1" fill="rgba(255,255,255,0.7)"/><circle cx="20" cy="14" r="1" fill="rgba(255,255,255,0.6)"/><circle cx="45" cy="18" r="1.2" fill="rgba(255,255,255,0.7)"/><rect x="0" y="28" width="54" height="14" fill="#152208"/><ellipse cx="27" cy="28" rx="28" ry="6" fill="#1a2e10"/></svg>`, 'stargazing', -7, 'rgba(240,135,0,0.42)', -5],
-  [/*flowers*/ `<svg viewBox="0 0 54 42" width="54" height="42"><rect width="54" height="42" fill="#e8f4d0"/><circle cx="18" cy="22" r="6" fill="#ff9eb5"/><circle cx="18" cy="22" r="3" fill="#ffd700"/><circle cx="36" cy="18" r="5" fill="#ff7aa2"/><circle cx="36" cy="18" r="2.5" fill="#ffd700"/><circle cx="28" cy="30" r="4" fill="#ffb3c6"/><circle cx="28" cy="30" r="2" fill="#ffd700"/><rect x="17" y="26" width="2" height="12" fill="#5a7a52" rx="1"/><rect x="35" y="22" width="2" height="12" fill="#5a7a52" rx="1"/></svg>`, 'field trip', 5, 'rgba(254,240,138,0.6)', 6],
-  [/*friends 2*/ `<svg viewBox="0 0 54 42" width="54" height="42"><rect width="54" height="42" fill="#f0d5b0"/><ellipse cx="18" cy="26" rx="10" ry="12" fill="#e8c090"/><circle cx="18" cy="16" r="8" fill="#d4a574"/><ellipse cx="38" cy="24" rx="9" ry="11" fill="#c49060"/><circle cx="38" cy="14" r="7" fill="#b07848"/></svg>`, 'them', -11, 'rgba(173,145,163,0.48)', -5],
-  [/*city*/ `<svg viewBox="0 0 54 42" width="54" height="42"><rect width="54" height="42" fill="#9ab0c8"/><rect x="4" y="18" width="10" height="24" fill="#4a5a70"/><rect x="16" y="10" width="12" height="32" fill="#3a4a60"/><rect x="30" y="20" width="8" height="22" fill="#4a5a70"/><rect x="40" y="14" width="10" height="28" fill="#3a4a60"/><rect x="0" y="38" width="54" height="4" fill="#2a3240"/><circle cx="8" cy="16" r="2" fill="#ffd700" opacity="0.6"/><circle cx="22" cy="8" r="2" fill="#ffd700" opacity="0.7"/></svg>`, 'city trip', 7, 'rgba(173,145,163,0.44)', 5],
+  ['waterfall.jpg', 'waterfall days', -9, 'rgba(240,135,0,0.44)', -5],
+  ['plane.jpg', 'above the clouds', 6, 'rgba(173,145,163,0.44)', 4],
+  ['jazzy1.jpg', 'sister', -5, 'rgba(173,145,163,0.5)', 48],
+  ['church.JPG', 'my culture', 8, 'rgba(254,240,138,0.66)', -3],
+  ['concert.jpg', 'live music', -7, 'rgba(240,135,0,0.42)', -5],
+  ['sarah.jpg', 'besties', 5, 'rgba(254,240,138,0.6)', 6],
+  ['friends.jpg', 'my people', -11, 'rgba(173,145,163,0.48)', -5],
+  ['city.jpg', 'city heights', 7, 'rgba(173,145,163,0.44)', 5],
 ];
 
 /* Bottom polaroid extra set */
 const bottomScenes = [
-  [`<svg viewBox="0 0 80 62" width="80" height="62"><rect width="80" height="62" fill="#b8d4e8"/><rect y="40" width="80" height="22" fill="#4a7c40"/><circle cx="60" cy="16" r="10" fill="#FFD700" opacity="0.8"/><ellipse cx="20" cy="22" rx="18" ry="8" fill="rgba(255,255,255,0.75)"/></svg>`, 'summer afternoon', -4],
-  [`<svg viewBox="0 0 80 62" width="80" height="62"><rect width="80" height="62" fill="#f2e4c8"/><ellipse cx="28" cy="34" rx="16" ry="20" fill="#e8c090"/><circle cx="28" cy="16" r="12" fill="#d4a574"/><ellipse cx="60" cy="32" rx="14" ry="18" fill="#c49060"/><circle cx="60" cy="15" r="11" fill="#b07848"/></svg>`, 'crew', 5],
-  [`<svg viewBox="0 0 80 62" width="80" height="62"><rect width="80" height="62" fill="#0d1b2e"/><circle cx="56" cy="12" r="7" fill="rgba(255,248,200,0.55)"/><circle cx="14" cy="8" r="2" fill="white" opacity="0.8"/><circle cx="40" cy="5" r="1.5" fill="white" opacity="0.7"/><circle cx="66" cy="22" r="1.5" fill="white" opacity="0.65"/><circle cx="25" cy="18" r="1" fill="white" opacity="0.6"/><rect y="42" width="80" height="20" fill="#0a1a06"/><ellipse cx="40" cy="42" rx="42" ry="8" fill="#112208"/></svg>`, 'late night', -6],
-  [`<svg viewBox="0 0 80 62" width="80" height="62"><rect width="80" height="62" fill="#8fbc8f"/><ellipse cx="40" cy="50" rx="42" ry="18" fill="#3d7a35"/><rect x="34" y="8" width="6" height="46" fill="#4a3020" rx="2"/><ellipse cx="38" cy="14" rx="20" ry="24" fill="#3d7a35"/><ellipse cx="44" cy="8" rx="14" ry="18" fill="#4a8f40"/></svg>`, 'national park', 3],
-  [`<svg viewBox="0 0 80 62" width="80" height="62"><rect width="80" height="62" fill="#1a1a2e"/><rect x="10" y="6" width="60" height="50" rx="3" fill="#2a2a4e"/><circle cx="40" cy="30" r="16" fill="#3a3a6e"/><rect x="14" y="20" width="52" height="1.5" fill="rgba(255,200,100,0.25)"/><rect x="14" y="42" width="52" height="1.5" fill="rgba(255,200,100,0.25)"/><circle cx="40" cy="30" r="7" fill="#ff6b9d" opacity="0.6"/></svg>`, 'photo booth', 7],
-  [`<svg viewBox="0 0 80 62" width="80" height="62"><rect width="80" height="62" fill="#e8d4b0"/><rect x="8" y="12" width="28" height="40" rx="2" fill="#c4a882"/><rect x="8" y="12" width="28" height="16" rx="1" fill="#a08060"/><rect x="44" y="18" width="28" height="34" rx="2" fill="#d4b892"/><path d="M22 52 L22 40 L30 40 L30 52" fill="#8b6914"/><ellipse cx="58" cy="14" rx="10" ry="4" fill="#b08860" opacity="0.7"/></svg>`, 'home', -3],
+  ['city.jpg', 'city heights', -4],
+  ['friends.jpg', 'crew', 5],
+  ['sarah.jpg', 'besties', -6],
+  ['waterfall.jpg', 'waterfall days', 3],
+  ['sunset.jpg', 'sunsets', 7],
+  ['church.JPG', 'my culture', -3],
 ];
 
 /* ══════════════════════════════════════════
@@ -391,7 +376,7 @@ function buildGutter(id, side) {
   if(!el) return;
 
   gutterScenes.forEach((scene, i) => {
-    const [svgStr, label, rot, tapeColor, tapeAngle] = scene;
+    const [src, label, rot, tapeColor, tapeAngle] = scene;
 
     const wrap = document.createElement('div');
     wrap.className = 'gpol';
@@ -403,7 +388,11 @@ function buildGutter(id, side) {
     const imgDiv = document.createElement('div');
     imgDiv.className = 'gpol-img';
     imgDiv.style.height = '52px';
-    imgDiv.innerHTML = svgStr;
+    const photo = document.createElement('img');
+    photo.src = src;
+    photo.alt = label;
+    photo.loading = 'lazy';
+    imgDiv.appendChild(photo);
 
     const lbl = document.createElement('span');
     lbl.className = 'gpol-label';
@@ -435,14 +424,18 @@ buildGutter('gutterR', 'R');
     'rgba(240,135,0,0.42)','rgba(173,145,163,0.42)','rgba(254,240,138,0.62)',
     'rgba(173,145,163,0.48)','rgba(240,135,0,0.38)','rgba(173,145,163,0.44)'
   ];
-  bottomScenes.forEach(([svg, label, rot], i) => {
+  bottomScenes.forEach(([src, label, rot], i) => {
     const wrap = document.createElement('div');
     wrap.className = 'bpol';
     wrap.style.transform = `rotate(${rot || rots[i%rots.length]}deg)`;
 
     const img = document.createElement('div');
     img.className = 'bpol-img';
-    img.innerHTML = svg;
+    const photo = document.createElement('img');
+    photo.src = src;
+    photo.alt = label;
+    photo.loading = 'lazy';
+    img.appendChild(photo);
 
     const tape = document.createElement('div');
     tape.style.cssText = `position:absolute; width:32px; height:11px; background:${tapes[i%tapes.length]}; border-radius:1px; transform:rotate(${[-6,4,-3,6,-5,3][i%6]}deg); top:-4px; left:22px; z-index:5; opacity:0.72; pointer-events:none;`;
