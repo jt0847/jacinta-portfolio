@@ -379,26 +379,6 @@ nav {
   padding: 12px 12px 28px;
   transform: none;
 }
-.about-portrait .hpol-img {
-  flex: 1;
-  min-height: 200px;
-  position: relative;
-  background: var(--cream);
-}
-.about-portrait img { position: absolute; inset: 0; }
-.about-portrait img { object-position: center 35%; }
-.about-portrait img:not([src]) { display: none; }
-.portrait-placeholder {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  font-family: 'Caveat', cursive;
-  font-size: 64px;
-  color: var(--slate);
-}
-.about-portrait .hpol-img:has(img[src]) .portrait-placeholder { display: none; }
-.about-portrait .hpol-label { font-size: 20px; margin-top: 10px; }
 
 .skills-row {
   display: flex;
